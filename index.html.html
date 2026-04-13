@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Oceňovanie SK</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiT2NlxYhvdmFuaWUgU0siLCJzaG9ydF9uYW1lIjoiT2NlxYhvdmFuaWUiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBkMTExNyIsInRoZW1lX2NvbG9yIjoiIzBkMTExNyJ9">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3;
+  --muted: #8b949e; --accent: #58a6ff; --green: #3fb950; --red: #f85149;
+  --yellow: #d29922; --orange: #db6d28;
+}
+html { background: var(--bg); }
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg); color: var(--text); min-height: 100vh;
+  -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+.app { max-width: 540px; margin: 0 auto; padding: 0 16px 80px; }
+
+/* Header */
+.hdr { text-align: center; padding: 28px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 24px; position: sticky; top: 0; background: var(--bg); z-index: 10; }
+.hdr h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; }
+.hdr p { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* Sections */
+.sec { margin-bottom: 20px; }
+.sec-t {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--muted); font-weight: 600; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sec-t::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* Cards */
+.crd { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+
+/* Form */
+label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 5px; font-weight: 500; }
+select, input[type="number"] {
+  width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  border-radius: 8px; padding: 11px 12px; font-size: 15px; font-family: inherit;
+  outline: none; transition: border-color .2s; appearance: none;
+  -webkit-appearance: none;
+}
+select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b949e' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+select:focus, input:focus { border-color: var(--accent); }
+option { background: var(--bg); color: var(--text); }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+input[type="range"] { width: 100%; margin-top: 6px; accent-color: var(--accent); height: 4px; }
+.m2-val { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 600; text-align: right; margin-top: 4px; }
+
+/* Chips */
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip {
+  padding: 8px 13px; border-radius: 20px; font-size: 11px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--bg); color: var(--muted);
+  transition: all .15s; user-select: none; font-weight: 500;
+  -webkit-user-select: none; touch-action: manipulation;
+}
+.chip:active { transform: scale(0.96); }
+.chip.on { background: rgba(88,166,255,.12); border-color: var(--accent); color: var(--accent); }
+.chip.neg.on { background: rgba(248,81,73,.12); border-color: var(--red); color: var(--red); }
+
+/* Floor */
+.fl-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.fl-btn {
+  padding: 8px 11px; border-radius: 8px; font-size: 11px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--bg); color: var(--muted);
+  transition: all .15s; font-family: inherit; font-weight: 500;
+  touch-action: manipulation;
+}
+.fl-btn:active { transform: scale(0.96); }
+.fl-btn.on { background: rgba(88,166,255,.12); border-color: var(--accent); color: var(--accent); }
+
+/* Result */
+.res {
+  background: linear-gradient(135deg, #161b22 0%, #1a2332 100%);
+  border: 1px solid var(--accent); border-radius: 14px; padding: 22px 18px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.res::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+.price-main { font-size: 36px; font-weight: 700; font-family: 'JetBrains Mono', monospace; letter-spacing: -1px; }
+.price-range { font-size: 12px; color: var(--muted); margin-top: 3px; font-family: 'JetBrains Mono', monospace; }
+.price-m2 { font-size: 13px; color: var(--accent); margin-top: 8px; font-weight: 600; }
+
+/* Bars */
+.bars { margin-top: 18px; }
+.bar-r { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+.bar-l { font-size: 10px; color: var(--muted); min-width: 80px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-t { flex: 1; height: 5px; background: rgba(48,54,61,.5); border-radius: 3px; overflow: hidden; }
+.bar-f { height: 100%; border-radius: 3px; transition: width .4s ease; }
+.bar-v { font-size: 10px; font-family: 'JetBrains Mono', monospace; min-width: 44px; }
+.pos { color: var(--green); } .neg { color: var(--red); }
+
+/* Breakdown */
+.bd-toggle {
+  background: none; border: 1px solid var(--border); color: var(--muted); padding: 10px;
+  border-radius: 8px; cursor: pointer; font-size: 12px; font-family: inherit;
+  font-weight: 500; width: 100%; margin-top: 16px; touch-action: manipulation;
+}
+.bd-toggle:active { background: rgba(88,166,255,.05); }
+.bd-base, .bd-total {
+  display: flex; justify-content: space-between; padding: 10px 0;
+  font-weight: 600; font-size: 13px;
+}
+.bd-base { border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+.bd-total { border-top: 2px solid var(--accent); margin-top: 4px; }
+.bd-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0; border-bottom: 1px solid rgba(48,54,61,.4); font-size: 12px;
+}
+.bd-row:last-child { border-bottom: none; }
+.bd-name { color: var(--text); font-weight: 500; }
+.bd-det { color: var(--muted); font-size: 10px; margin-top: 1px; }
+.bd-fac { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; text-align: right; white-space: nowrap; }
+.bd-eur { font-size: 9px; opacity: .7; margin-left: 3px; }
+
+/* Disclaimer */
+.disc {
+  margin-top: 20px; padding: 12px 14px; background: rgba(210,153,34,.08);
+  border: 1px solid rgba(210,153,34,.25); border-radius: 10px;
+  font-size: 11px; color: var(--yellow); line-height: 1.5;
+}
+.src { font-size: 9px; color: var(--muted); text-align: center; margin-top: 14px; letter-spacing: .5px; }
+
+/* Negot helper */
+.negot { margin-top: 20px; }
+.negot-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px; font-size: 12px; line-height: 1.6;
+}
+.negot-card h3 { font-size: 13px; margin-bottom: 8px; color: var(--accent); font-weight: 600; }
+.arg { padding: 6px 0; border-bottom: 1px solid rgba(48,54,61,.3); }
+.arg:last-child { border: none; }
+.arg-label { font-weight: 600; font-size: 11px; }
+.arg-text { color: var(--muted); font-size: 11px; margin-top: 2px; }
+
+@media (max-width: 400px) {
+  .g2 { grid-template-columns: 1fr; }
+  .bar-l { min-width: 65px; font-size: 9px; }
+  .price-main { font-size: 30px; }
+}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+const B={
+"Bratislava – Staré Mesto":{b:5400,t:"p"},"Bratislava – Ružinov":{b:4200,t:"p"},"Bratislava – Nové Mesto":{b:4400,t:"p"},
+"Bratislava – Karlova Ves":{b:4100,t:"p"},"Bratislava – Petržalka":{b:3600,t:"h"},"Bratislava – Dúbravka":{b:3500,t:"h"},
+"Bratislava – Rača":{b:3400,t:"h"},"Bratislava – Vrakuňa":{b:3100,t:"h"},"Bratislava – Podunajské Biskupice":{b:3000,t:"h"},
+"Bratislava – Devínska N. Ves":{b:3200,t:"h"},"Bratislava – Lamač":{b:3300,t:"h"},"Bratislava – Vajnory":{b:3100,t:"h"},
+"Bratislava – Záhorská Bystrica":{b:3000,t:"h"},"Bratislava – Čunovo/Jarovce/Rusovce":{b:2900,t:"h"},
+"Košice – centrum (I)":{b:3200,t:"h"},"Košice – západ (II)":{b:2600,t:"m"},"Košice – Dargovských hr. (III)":{b:2300,t:"m"},
+"Košice – juh (IV)":{b:2500,t:"m"},
+"Žilina":{b:2800,t:"m"},"Banská Bystrica":{b:2600,t:"m"},"Trnava":{b:2700,t:"m"},"Trenčín":{b:2200,t:"m"},
+"Nitra":{b:2100,t:"l"},"Prešov":{b:2200,t:"m"},"Poprad":{b:2400,t:"m"},"Martin":{b:2000,t:"l"},
+"Piešťany":{b:2500,t:"m"},"Senec":{b:3100,t:"h"},"Pezinok":{b:2900,t:"h"},
+"Prievidza":{b:1500,t:"l"},"Zvolen":{b:1900,t:"l"},"Lučenec":{b:1200,t:"b"},"Komárno":{b:1300,t:"b"},
+"Rimavská Sobota":{b:900,t:"b"},"Michalovce":{b:1400,t:"b"},"Humenné":{b:1200,t:"b"},"Bardejov":{b:1300,t:"b"},
+};
+
+const COND=[
+  {k:"Pôvodný stav",f:-0.12,d:"Bez rekonštrukcie"},
+  {k:"Čiastočná rekonštrukcia",f:-0.04,d:"Nové okná, staré jadro"},
+  {k:"Kompletná rekonštrukcia",f:0.06,d:"Kompletne zrekonštruovaný"},
+  {k:"Novostavba / developer",f:0.12,d:"Nový byt, developerský štandard"},
+  {k:"Nadštandard",f:0.20,d:"Prémiové materiály, dizajn"},
+];
+
+const BTYPE=[
+  {k:"Panelový dom",f:-0.06,d:"Panelák"},
+  {k:"Tehlový dom",f:0.04,d:"Tradičná tehla"},
+  {k:"Zateplený panelák",f:-0.02,d:"Panelák po zateplení"},
+  {k:"Novostavba",f:0.10,d:"Nová výstavba"},
+  {k:"Historická budova",f:0.06,d:"Rekonštruovaný historický dom"},
+];
+
+const ORI=[
+  {k:"Juh / Juhozápad",f:0.03,d:"Najlepšie svetlo"},
+  {k:"Západ",f:0.01,d:"Popoludňajšie svetlo"},
+  {k:"Východ",f:0.00,d:"Ranné svetlo"},
+  {k:"Sever / Severovýchod",f:-0.03,d:"Najmenej svetla"},
+  {k:"Rohový (2 strany)",f:0.04,d:"Presvetlenie z 2 strán"},
+];
+
+const FLOOR=[
+  {k:"Prízemie",f:-0.06},{k:"1. p.",f:-0.02},{k:"2.–3. p.",f:0.02},{k:"4.–6. p.",f:0.03},
+  {k:"7.–10. p.",f:0.01},{k:"11.+ p.",f:-0.01},{k:"Posl. (bez výťahu)",f:-0.05},{k:"Posl. (s výťahom)",f:0.02},
+];
+
+const EXT=[
+  {k:"Balkón / Loggia",f:0.03},{k:"Terasa",f:0.05},{k:"Výťah",f:0.02},{k:"Parking / Garáž",f:0.05},
+  {k:"Pivnica",f:0.01},{k:"Klimatizácia",f:0.015},{k:"Zateplenie",f:0.02},{k:"Tichá lokalita",f:0.02},
+  {k:"Rušná cesta",f:-0.04},{k:"Blízko MHD",f:0.02},{k:"Školy v okolí",f:0.015},{k:"Park / Zeleň",f:0.02},
+  {k:"Obchody / Služby",f:0.015},{k:"Problematická lokalita",f:-0.08},
+];
+
+function sizeAdj(m2){
+  if(m2<=30) return {f:0.08,d:"Garsónka – prémia za m²"};
+  if(m2<=45) return {f:0.04,d:"Malý byt – vyššia €/m²"};
+  if(m2<=65) return {f:0.00,d:"Štandard – neutrálna"};
+  if(m2<=85) return {f:-0.02,d:"Väčší byt – mierna zľava"};
+  if(m2<=110) return {f:-0.04,d:"Veľký byt – zľava za m²"};
+  return {f:-0.06,d:"Nadrozmerný – výrazná zľava"};
+}
+
+const fmt=n=>new Intl.NumberFormat("sk-SK").format(Math.round(n));
+const pct=f=>(f>0?"+":"")+(f*100).toFixed(1)+"%";
+
+let state={
+  city:"Bratislava – Petržalka", m2:68, cond:2, btype:0, ori:0, floor:2,
+  extras:[0,2,9], showBD:false
+};
+
+function calc(){
+  const loc=B[state.city]; if(!loc) return null;
+  const base=loc.b; let tf=0; const adjs=[];
+
+  const c=COND[state.cond]; adjs.push({n:"Stav bytu",d:c.k,f:c.f}); tf+=c.f;
+  const bt=BTYPE[state.btype]; adjs.push({n:"Typ budovy",d:bt.k,f:bt.f}); tf+=bt.f;
+  const o=ORI[state.ori]; adjs.push({n:"Orientácia",d:o.k,f:o.f}); tf+=o.f;
+  const fl=FLOOR[state.floor]; adjs.push({n:"Poschodie",d:fl.k,f:fl.f}); tf+=fl.f;
+  const sz=sizeAdj(state.m2); adjs.push({n:"Veľkosť",d:state.m2+" m²",f:sz.f}); tf+=sz.f;
+  state.extras.forEach(i=>{const e=EXT[i]; adjs.push({n:e.k,d:"",f:e.f}); tf+=e.f;});
+
+  const pm2=base*(1+tf); const tot=pm2*state.m2;
+  return {base,adjs,tf,pm2,tot,lo:tot*.92,hi:tot*1.08};
+}
+
+function genNegotArgs(v){
+  if(!v) return [];
+  const args=[];
+  const negAdjs=v.adjs.filter(a=>a.f<0);
+  const posAdjs=v.adjs.filter(a=>a.f>0);
+
+  if(negAdjs.length>0){
+    const totalNeg=negAdjs.reduce((s,a)=>s+a.f,0);
+    args.push({
+      label:"Zrážky z trhovej ceny",
+      text:`Faktory znižujúce hodnotu (${negAdjs.map(a=>a.n).join(", ")}) znižujú cenu o ${(Math.abs(totalNeg)*100).toFixed(1)}%, čo je ~${fmt(v.base*Math.abs(totalNeg)*state.m2)} €.`
+    });
+  }
+
+  const loc=B[state.city];
+  if(loc && loc.t==="b"){
+    args.push({label:"Nízka likvidita lokality",text:"V tejto lokalite je obmedzený dopyt – predajné doby sú dlhšie, čo dáva kupujúcemu vyjednávaciu pozíciu."});
+  }
+  if(state.m2>85){
+    args.push({label:"Veľký byt = menší dopyt",text:"Väčšie byty sa predávajú pomalšie. Segment 2–3 izbových bytov je najlikvidnejší."});
+  }
+  if(v.tf<0){
+    args.push({label:"Celková trhová korekcia",text:`Kombinácia parametrov znižuje trhovú hodnotu o ${(Math.abs(v.tf)*100).toFixed(1)}% oproti priemeru v danej lokalite.`});
+  }
+  args.push({
+    label:"Rozpätie na rokovanie",
+    text:`Realistický rozsah: ${fmt(v.lo)} – ${fmt(v.hi)} €. Ak predávajúci ponúka nad ${fmt(v.hi)} €, máte dáta na to aby ste argumentovali znížením.`
+  });
+  return args;
+}
+
+function render(){
+  const v=calc();
+  const keys=Object.keys(B);
+  const baKeys=keys.filter(k=>k.startsWith("Bratislava"));
+  const keKeys=keys.filter(k=>k.startsWith("Košice"));
+  const otherKeys=keys.filter(k=>!k.startsWith("Bratislava")&&!k.startsWith("Košice"));
+  const loc=B[state.city];
+
+  const negArgs=genNegotArgs(v);
+
+  document.getElementById("app").innerHTML=`
+    <div class="hdr">
+      <h1>Oceňovanie nehnuteľností SK</h1>
+      <p>Odhad trhovej ceny bytu · Q1 2026 · Realitná únia SR, NBS</p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-t">Lokalita</div>
+      <div class="crd">
+        <label>Mesto / Mestská časť</label>
+        <select id="sel-city">
+          <optgroup label="Bratislava">${baKeys.map(k=>`<option value="${k}" ${k===state.city?"selected":""}>${k}</option>`).join("")}</optgroup>
+          <optgroup label="Košice">${keKeys.map(k=>`<option value="${k}" ${k===state.city?"selected":""}>${k}</option>`).join("")}</optgroup>
+          <optgroup label="Ostatné mestá">${otherKeys.map(k=>`<option value="${k}" ${k===state.city?"selected":""}>${k}</option>`).join("")}</optgroup>
+        </select>
+        ${loc?`<div style="margin-top:8px;font-size:12px;color:var(--muted)">Báza: <span style="font-family:'JetBrains Mono',monospace;color:var(--text);font-weight:600">${fmt(loc.b)} €/m²</span></div>`:""}
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-t">Parametre bytu</div>
+      <div class="crd">
+        <div class="g2">
+          <div>
+            <label>Výmera (m²)</label>
+            <input type="number" id="inp-m2" value="${state.m2}" min="15" max="300" inputmode="numeric">
+            <input type="range" id="rng-m2" min="15" max="200" value="${state.m2}" style="margin-top:6px">
+            <div class="m2-val">${state.m2} m²</div>
+          </div>
+          <div>
+            <label>Stav bytu</label>
+            <select id="sel-cond">${COND.map((c,i)=>`<option value="${i}" ${i===state.cond?"selected":""}>${c.k}</option>`).join("")}</select>
+          </div>
+        </div>
+        <div class="g2" style="margin-top:10px">
+          <div>
+            <label>Typ budovy</label>
+            <select id="sel-bt">${BTYPE.map((b,i)=>`<option value="${i}" ${i===state.btype?"selected":""}>${b.k}</option>`).join("")}</select>
+          </div>
+          <div>
+            <label>Orientácia okien</label>
+            <select id="sel-ori">${ORI.map((o,i)=>`<option value="${i}" ${i===state.ori?"selected":""}>${o.k}</option>`).join("")}</select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-t">Poschodie</div>
+      <div class="crd">
+        <div class="fl-grid">
+          ${FLOOR.map((f,i)=>`<button class="fl-btn ${i===state.floor?"on":""}" data-fi="${i}">${f.k}</button>`).join("")}
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-t">Vybavenie & okolie</div>
+      <div class="crd">
+        <div class="chips">
+          ${EXT.map((e,i)=>`<button class="chip ${e.f<0?"neg":""} ${state.extras.includes(i)?"on":""}" data-ei="${i}">${e.f>0?"+":""}${(e.f*100).toFixed(1)}% ${e.k}</button>`).join("")}
+        </div>
+      </div>
+    </div>
+
+    ${v?`
+    <div class="sec">
+      <div class="sec-t">Odhad trhovej ceny</div>
+      <div class="res">
+        <div class="price-main">${fmt(v.tot)} €</div>
+        <div class="price-range">${fmt(v.lo)} € – ${fmt(v.hi)} €</div>
+        <div class="price-m2">${fmt(v.pm2)} €/m² · ${state.m2} m² · ${pct(v.tf)}</div>
+        <div class="bars">
+          ${v.adjs.filter(a=>a.f!==0).map(a=>{
+            const mx=Math.max(...v.adjs.map(x=>Math.abs(x.f)),0.01);
+            const w=Math.abs(a.f)/mx*100;
+            return `<div class="bar-r">
+              <span class="bar-l">${a.n}</span>
+              <div class="bar-t"><div class="bar-f" style="width:${w}%;background:${a.f>0?"var(--green)":"var(--red)"};opacity:.7"></div></div>
+              <span class="bar-v ${a.f>0?"pos":"neg"}">${pct(a.f)}</span>
+            </div>`;
+          }).join("")}
+        </div>
+      </div>
+
+      <button class="bd-toggle" id="btn-bd">${state.showBD?"▾ Skryť rozpis":"▸ Detailný rozpis"}</button>
+      ${state.showBD?`
+      <div class="crd" style="margin-top:10px">
+        <div class="bd-base">
+          <span>Báza (${state.city})</span>
+          <span style="font-family:'JetBrains Mono',monospace">${fmt(v.base)} €/m²</span>
+        </div>
+        ${v.adjs.map(a=>`
+          <div class="bd-row">
+            <div><div class="bd-name">${a.n}</div><div class="bd-det">${a.d}</div></div>
+            <div class="bd-fac ${a.f>0?"pos":a.f<0?"neg":""}">${pct(a.f)}<span class="bd-eur">(${a.f>0?"+":""}${fmt(v.base*a.f)} €)</span></div>
+          </div>
+        `).join("")}
+        <div class="bd-total">
+          <span>Cena za m²</span>
+          <span style="font-family:'JetBrains Mono',monospace;color:var(--accent)">${fmt(v.pm2)} €/m²</span>
+        </div>
+        <div class="bd-total" style="border-top-width:1px;border-color:var(--border)">
+          <span>Celkom (${state.m2} m²)</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:15px">${fmt(v.tot)} €</span>
+        </div>
+      </div>`:""}
+    </div>
+
+    <div class="sec negot">
+      <div class="sec-t">Argumenty na rokovanie</div>
+      <div class="negot-card">
+        <h3>Ako obhájiť cenu pred majiteľom</h3>
+        ${negArgs.map(a=>`<div class="arg"><div class="arg-label">${a.label}</div><div class="arg-text">${a.text}</div></div>`).join("")}
+      </div>
+    </div>
+    `:""}
+
+    <div class="disc">⚠️ Orientačný odhad na základe priemerných trhových dát Q1 2026. Skutočná cena závisí od konkrétnych podmienok (ulica, stav domu, právny stav, urgentnosť predaja). Rozpätie ±8% pokrýva väčšinu odchýlok. Použite ako základ pre rokovanie — nie ako znalecký posudok.</div>
+    <div class="src">Realitná únia SR · NBS · HERRYS · nehnutelnosti.sk · Apríl 2026</div>
+  `;
+
+  // Events
+  document.getElementById("sel-city").onchange=e=>{state.city=e.target.value;render()};
+  document.getElementById("inp-m2").onchange=e=>{state.m2=Math.max(15,Math.min(300,+e.target.value));render()};
+  document.getElementById("rng-m2").oninput=e=>{state.m2=+e.target.value;render()};
+  document.getElementById("sel-cond").onchange=e=>{state.cond=+e.target.value;render()};
+  document.getElementById("sel-bt").onchange=e=>{state.btype=+e.target.value;render()};
+  document.getElementById("sel-ori").onchange=e=>{state.ori=+e.target.value;render()};
+  document.querySelectorAll("[data-fi]").forEach(el=>el.onclick=()=>{state.floor=+el.dataset.fi;render()});
+  document.querySelectorAll("[data-ei]").forEach(el=>el.onclick=()=>{
+    const i=+el.dataset.ei;
+    state.extras=state.extras.includes(i)?state.extras.filter(x=>x!==i):[...state.extras,i];
+    render();
+  });
+  const bdBtn=document.getElementById("btn-bd");
+  if(bdBtn) bdBtn.onclick=()=>{state.showBD=!state.showBD;render()};
+}
+
+render();
+</script>
+</body>
+</html>
