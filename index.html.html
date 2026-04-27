@@ -149,13 +149,102 @@ input[type="range"]::-webkit-slider-thumb{width:20px;height:20px}
 <body>
 <div class="app" id="app"></div>
 <script>
+// ══════════════════════════════════════════════════════════════════
+// DATA SOURCES & METHODOLOGY (Q1 2026)
+// SK Flats: NBS Q4 2025 (avg flat 3262 €/m², avg all 2906 €/m²),
+//   Realitný barometer Jan 2026 (3336), Mar 2026 (3353 €/m²),
+//   ŠÚ SR Q4 2025 (+12.8% YoY realized transactions from kataster),
+//   CBRE BA novostavby Q4 2025 (5302 €/m²), realitymap.sk live data
+// SK Houses: NBS Q4 2025 (avg house 2139 €/m², +8.1% YoY)
+// SK Land: Mirano Feb 2026, stavbujeme.sk 2025, TRH.sk
+// CZ Flats: ČSÚ realized prices 2024 (63521 Kč avg, Praha 115889),
+//   ČBA monitor Q3 2025 (+3.7% QoQ), Moneyspot Jan 2026 (Praha 156k),
+//   Deloitte Real Index, hyponamiru.cz, nemovitostnikalkulacka.cz
+// CZ Houses: ČSÚ 2024 (avg 51867, Praha 106753 Kč/m²)
+// CZ Land: MMR, sreality.cz aggregated data
+// CZK/EUR: 25.2 (ČNB reference rate Q1 2026)
+// ══════════════════════════════════════════════════════════════════
 const R=25.2,toE=k=>Math.round(k/R);
-const F_SK={"Bratislava – Staré Mesto":5400,"Bratislava – Ružinov":4200,"Bratislava – Nové Mesto":4400,"Bratislava – Karlova Ves":4100,"Bratislava – Petržalka":3600,"Bratislava – Dúbravka":3500,"Bratislava – Rača":3400,"Bratislava – Vrakuňa":3100,"Bratislava – Podun. Biskupice":3000,"Bratislava – Devínska N. Ves":3200,"Bratislava – Lamač":3300,"Bratislava – Vajnory":3100,"Bratislava – Záhorská Bystrica":3000,"Bratislava – Čunovo/Jarovce":2900,"Košice – centrum (I)":3200,"Košice – západ (II)":2600,"Košice – DH (III)":2300,"Košice – juh (IV)":2500,"Žilina":2800,"Banská Bystrica":2600,"Trnava":2700,"Trenčín":2200,"Nitra":2100,"Prešov":2200,"Poprad":2400,"Martin":2000,"Piešťany":2500,"Senec":3100,"Pezinok":2900,"Prievidza":1500,"Zvolen":1900,"Lučenec":1200,"Komárno":1300,"Rimavská Sobota":900,"Michalovce":1400,"Humenné":1200,"Bardejov":1300};
-const F_CZ={"Praha 1":toE(189000),"Praha 2":toE(153000),"Praha 3":toE(133000),"Praha 4":toE(117000),"Praha 5":toE(123000),"Praha 6":toE(123000),"Praha 7":toE(141000),"Praha 8":toE(130000),"Praha 9":toE(118000),"Praha 10":toE(119000),"Praha – okraj":toE(105000),"Brno – centrum":toE(120000),"Brno – širšie centrum":toE(100000),"Brno – sídlisko":toE(85000),"Plzeň":toE(91000),"Olomouc":toE(90000),"Hradec Králové":toE(94000),"České Budějovice":toE(85000),"Pardubice":toE(85000),"Liberec":toE(78000),"Zlín":toE(86000),"Karlovy Vary":toE(71000),"Jihlava":toE(64000),"Ostrava – centrum":toE(55000),"Ostrava – sídlisko":toE(38000),"Ústí nad Labem":toE(46000),"Most/Litvínov":toE(22000),"Kladno":toE(72000),"Mladá Boleslav":toE(62000),"Opava":toE(42000),"Frýdek-Místek":toE(48000)};
-const H_SK={"Bratislava – mesto":3200,"Bratislava – okolie":2400,"Košice – mesto":2100,"Košice – okolie":1500,"Žilina":1800,"Banská Bystrica":1500,"Trnava":1800,"Trenčín":1400,"Nitra":1400,"Prešov":1300,"Poprad":1600,"Martin":1300,"Piešťany":1700,"Senec":2200,"Pezinok":2100,"Prievidza":1000,"Zvolen":1200,"Lučenec":800,"Komárno":900,"Rimavská Sobota":600,"Michalovce":900,"Humenné":750,"Bardejov":800};
-const H_CZ={"Praha – mesto":toE(107000),"Praha – okolie":toE(80000),"Brno – mesto":toE(65000),"Brno – okolie":toE(50000),"Plzeň":toE(55000),"Olomouc":toE(48000),"Hradec Králové":toE(52000),"České Budějovice":toE(48000),"Pardubice":toE(46000),"Liberec":toE(42000),"Zlín":toE(44000),"Karlovy Vary":toE(38000),"Jihlava":toE(36000),"Ostrava":toE(30000),"Ústí nad Labem":toE(25000),"Most/Litvínov":toE(15000),"Kladno":toE(48000),"Mladá Boleslav":toE(40000),"Opava":toE(28000)};
-const L_SK={"Bratislava – mesto":450,"Bratislava – okolie":200,"Bratislava – širšie okolie":140,"Košice – mesto":150,"Košice – okolie":80,"Trnava":110,"Žilina":65,"Banská Bystrica":95,"Trenčín":60,"Nitra":55,"Prešov":60,"Poprad":70,"Martin":50,"Piešťany":90,"Zvolen":55,"Prievidza":35,"Lučenec":25,"Komárno":30,"Rimavská Sobota":15,"Michalovce":35,"Humenné":25,"Bardejov":25,"Vidiek – západ":50,"Vidiek – stred":30,"Vidiek – východ":20};
-const L_CZ={"Praha – mesto":toE(15000),"Praha – okolie":toE(8000),"Brno – mesto":toE(6000),"Brno – okolie":toE(3500),"Plzeň":toE(4000),"Olomouc":toE(3500),"Hradec Králové":toE(3500),"České Budějovice":toE(3200),"Pardubice":toE(3000),"Liberec":toE(2500),"Zlín":toE(2800),"Karlovy Vary":toE(2200),"Jihlava":toE(2000),"Ostrava":toE(1800),"Ústí nad Labem":toE(1200),"Most/Litvínov":toE(600),"Kladno":toE(3500),"Mladá Boleslav":toE(2500),"Vidiek – Čechy":toE(1500),"Vidiek – Morava":toE(1200)};
+// ═══ SK FLATS (€/m²) ═══
+// BA: CBRE novostavby 5302, Staré Mesto nové ~6000, staršie ~4800;
+// Realitný barometer Mar 2026: celoslovenský priemer 3353
+// NBS Q4 2025: celoslovenský byt priemer 3262; BA kraj ~4200 avg
+// Cenová 30tka RÚ: BA 3829 (starší 3izb), KE 2660, BB 2520, ZA 2480
+const F_SK={
+"Bratislava – Staré Mesto":5800,"Bratislava – Ružinov":4500,"Bratislava – Nové Mesto":4600,
+"Bratislava – Karlova Ves":4300,"Bratislava – Petržalka":3900,"Bratislava – Dúbravka":3700,
+"Bratislava – Rača":3600,"Bratislava – Vrakuňa":3200,"Bratislava – Podun. Biskupice":3100,
+"Bratislava – Devínska N. Ves":3400,"Bratislava – Lamač":3500,"Bratislava – Vajnory":3200,
+"Bratislava – Záhorská Bystrica":3100,"Bratislava – Čunovo/Jarovce":3000,
+// KE: NBS Q4 2025 KE kraj najrýchlejší rast +8.2% QoQ; novšie 1-2izb >4000
+"Košice – centrum (I)":3500,"Košice – západ (II)":2900,"Košice – DH (III)":2500,"Košice – juh (IV)":2700,
+// Krajské mestá: RÚ barometer + NBS regionálne dáta
+"Žilina":2900,"Banská Bystrica":2850,"Trnava":2900,"Trenčín":2450,
+"Nitra":2350,"Prešov":2500,"Poprad":2550,"Martin":2100,
+// Okresné mestá: cenová mapa realitymap.sk + RÚ Cenová 30tka
+"Piešťany":2600,"Senec":3300,"Pezinok":3100,
+"Prievidza":1600,"Zvolen":2050,"Lučenec":1300,"Komárno":1400,
+"Rimavská Sobota":950,"Michalovce":1550,"Humenné":1300,"Bardejov":1400
+};
+// ═══ CZ FLATS (CZK/m² → €) ═══
+// Praha Jan 2026: 156000 Kč/m² avg (Moneyspot, nemovitostnikalkulacka)
+// P1-P2: 200-280k, P3/5/6/7: 140-180k, P4/8/10: 110-150k, P9/okraj: 85-120k
+// Brno: 95000 avg (+9.2% YoY), Ostrava: +21.7% YoY
+// ČSÚ 2024 realized: ČR avg 63521, Praha 115889 → Q1 2026 ~+16% = ~73k ČR, ~134k Praha
+const F_CZ={
+"Praha 1":toE(240000),"Praha 2":toE(180000),"Praha 3":toE(155000),"Praha 4":toE(130000),
+"Praha 5":toE(145000),"Praha 6":toE(145000),"Praha 7":toE(165000),"Praha 8":toE(140000),
+"Praha 9":toE(115000),"Praha 10":toE(125000),"Praha – okraj":toE(100000),
+"Brno – centrum":toE(125000),"Brno – širšie centrum":toE(100000),"Brno – sídlisko":toE(85000),
+"Plzeň":toE(96000),"Olomouc":toE(95000),"Hradec Králové":toE(98000),
+"České Budějovice":toE(88000),"Pardubice":toE(88000),"Liberec":toE(82000),
+"Zlín":toE(89000),"Karlovy Vary":toE(71000),"Jihlava":toE(64000),
+"Ostrava – centrum":toE(62000),"Ostrava – sídlisko":toE(42000),
+"Ústí nad Labem":toE(48000),"Most/Litvínov":toE(28000),
+"Kladno":toE(78000),"Mladá Boleslav":toE(66000),"Opava":toE(45000),"Frýdek-Místek":toE(52000)
+};
+// ═══ SK HOUSES (€/m² úžitkovej plochy) ═══
+// NBS Q4 2025: SK avg dom 2139 €/m², +8.1% YoY
+// BA domy: CBRE/NBS ~2800-3500 mesto, okolie 2200-2700
+const H_SK={
+"Bratislava – mesto":3400,"Bratislava – okolie":2600,"Košice – mesto":2300,"Košice – okolie":1650,
+"Žilina":1950,"Banská Bystrica":1650,"Trnava":1950,"Trenčín":1500,
+"Nitra":1500,"Prešov":1450,"Poprad":1700,"Martin":1400,
+"Piešťany":1800,"Senec":2400,"Pezinok":2300,
+"Prievidza":1050,"Zvolen":1300,"Lučenec":850,"Komárno":950,
+"Rimavská Sobota":650,"Michalovce":1000,"Humenné":800,"Bardejov":850
+};
+// ═══ CZ HOUSES (CZK/m²) ═══
+// ČSÚ 2024: ČR avg 51867, Praha 106753 → +~12% to Q1 2026
+const H_CZ={
+"Praha – mesto":toE(120000),"Praha – okolie":toE(88000),
+"Brno – mesto":toE(72000),"Brno – okolie":toE(55000),
+"Plzeň":toE(60000),"Olomouc":toE(52000),"Hradec Králové":toE(56000),
+"České Budějovice":toE(52000),"Pardubice":toE(50000),"Liberec":toE(45000),
+"Zlín":toE(48000),"Karlovy Vary":toE(40000),"Jihlava":toE(38000),
+"Ostrava":toE(34000),"Ústí nad Labem":toE(28000),"Most/Litvínov":toE(18000),
+"Kladno":toE(52000),"Mladá Boleslav":toE(44000),"Opava":toE(30000)
+};
+// ═══ SK LAND (€/m² stavebný pozemok) ═══
+// Mirano Feb 2026: BA ~450-600, TT 107, BB 92, KE 70
+// stavbujeme.sk: BA 300-600, KE 130-300, východ 30-80
+const L_SK={
+"Bratislava – mesto":500,"Bratislava – okolie":220,"Bratislava – širšie okolie":150,
+"Košice – mesto":165,"Košice – okolie":85,"Trnava":115,"Žilina":70,"Banská Bystrica":100,
+"Trenčín":65,"Nitra":60,"Prešov":65,"Poprad":75,"Martin":55,
+"Piešťany":95,"Zvolen":60,"Prievidza":38,"Lučenec":28,"Komárno":32,
+"Rimavská Sobota":17,"Michalovce":38,"Humenné":28,"Bardejov":28,
+"Vidiek – západ":55,"Vidiek – stred":32,"Vidiek – východ":22
+};
+// ═══ CZ LAND (CZK/m²) ═══
+const L_CZ={
+"Praha – mesto":toE(18000),"Praha – okolie":toE(9000),"Brno – mesto":toE(7000),"Brno – okolie":toE(4000),
+"Plzeň":toE(4500),"Olomouc":toE(3800),"Hradec Králové":toE(3800),
+"České Budějovice":toE(3500),"Pardubice":toE(3300),"Liberec":toE(2800),
+"Zlín":toE(3000),"Karlovy Vary":toE(2400),"Jihlava":toE(2200),
+"Ostrava":toE(2000),"Ústí nad Labem":toE(1400),"Most/Litvínov":toE(700),
+"Kladno":toE(4000),"Mladá Boleslav":toE(2800),"Vidiek – Čechy":toE(1600),"Vidiek – Morava":toE(1300)
+};
 
 const CF=[{k:"Pôvodný stav",f:-.12},{k:"Čiastočná rek.",f:-.04},{k:"Kompletná rek.",f:.06},{k:"Novostavba",f:.12},{k:"Nadštandard",f:.20}];
 const CH=[{k:"Pôvodný / zbúranie",f:-.20},{k:"Čiastočná rek.",f:-.08},{k:"Dobrý stav",f:0},{k:"Kompletná rek.",f:.08},{k:"Novostavba",f:.15},{k:"Nadštandard / pasívny",f:.25}];
@@ -259,7 +348,7 @@ ${args.map(a=>`<div class="arg"><div class="arg-label">${a.l}</div><div class="a
 `:""}
 
 <div class="disc">⚠️ Orientačný odhad · Q1 2026. ${S.pt==="land"?"Rozpätie ±12%.":"Rozpätie ±8%."} ${isCZ?"Kurz 25,2 Kč/€. ":""}Nie je znalecký posudok.</div>
-<div class="src">${isCZ?"ČSÚ · ČNB · hyponamiru.cz · Banky.cz":"Realitná únia SR · NBS · nehnutelnosti.sk"} · Apríl 2026</div>`;
+<div class="src">${isCZ?"ČSÚ · ČNB · ČBA monitor · Deloitte Real Index · hyponamiru.cz":"NBS Q4 2025 · ŠÚ SR · Realitná únia Mar 2026 · CBRE · realitymap.sk"} · Apríl 2026</div>`;
 
 // events
 document.querySelectorAll("[data-co]").forEach(el=>el.onclick=()=>{if(el.dataset.co!==S.co){S.co=el.dataset.co;init();render();}});
