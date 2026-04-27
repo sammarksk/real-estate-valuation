@@ -3,422 +3,276 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0d1117">
+<meta name="theme-color" content="#f8fafb">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Oceňovanie SK</title>
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiT2NlxYhvdmFuaWUgU0siLCJzaG9ydF9uYW1lIjoiT2NlxYhvdmFuaWUiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBkMTExNyIsInRoZW1lX2NvbG9yIjoiIzBkMTExNyJ9">
+<title>Oceňovanie SK & CZ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3;
-  --muted: #8b949e; --accent: #58a6ff; --green: #3fb950; --red: #f85149;
-  --yellow: #d29922; --orange: #db6d28;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8fafb;--surface:#ffffff;--surface2:#f0f3f5;--border:#e3e7eb;
+  --text:#1a1d21;--text2:#5f6368;--text3:#9aa0a6;
+  --primary:#1a73e8;--primary-light:#e8f0fe;--primary-dark:#1557b0;
+  --green:#0d652d;--green-bg:#e6f4ea;--red:#c5221f;--red-bg:#fce8e6;
+  --yellow:#e37400;--yellow-bg:#fef7e0;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08);--shadow-md:0 2px 8px rgba(0,0,0,.1);--shadow-lg:0 4px 16px rgba(0,0,0,.12);
+  --radius:16px;--radius-sm:12px;--radius-xs:8px;
 }
-html { background: var(--bg); }
-body {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg); color: var(--text); min-height: 100vh;
-  -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
-  overscroll-behavior: none;
-}
-.app { max-width: 540px; margin: 0 auto; padding: 0 16px 80px; }
+html{background:var(--bg)}
+body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+.app{max-width:520px;margin:0 auto;padding:0 16px 100px}
 
-/* Header */
-.hdr { text-align: center; padding: 28px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 24px; position: sticky; top: 0; background: var(--bg); z-index: 10; }
-.hdr h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; }
-.hdr p { font-size: 11px; color: var(--muted); margin-top: 4px; }
+/* ── HEADER ── */
+.hdr{padding:28px 0 20px;text-align:center;position:sticky;top:0;background:var(--bg);z-index:10}
+.hdr h1{font-size:22px;font-weight:800;letter-spacing:-.5px;color:var(--text)}
+.hdr p{font-size:12px;color:var(--text3);margin-top:4px;font-weight:500}
 
-/* Sections */
-.sec { margin-bottom: 20px; }
-.sec-t {
-  font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
-  color: var(--muted); font-weight: 600; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 8px;
-}
-.sec-t::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+/* ── SECTIONS ── */
+.sec{margin-bottom:16px;animation:fadeUp .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.sec:nth-child(2){animation-delay:.05s}.sec:nth-child(3){animation-delay:.1s}.sec:nth-child(4){animation-delay:.15s}
+.sec:nth-child(5){animation-delay:.2s}.sec:nth-child(6){animation-delay:.25s}.sec:nth-child(7){animation-delay:.3s}
+.sec-t{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);font-weight:700;margin-bottom:10px;padding-left:4px}
 
-/* Cards */
-.crd { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+/* ── CARDS ── */
+.crd{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);transition:box-shadow .2s}
 
-/* Form */
-label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 5px; font-weight: 500; }
-select, input[type="number"] {
-  width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
-  border-radius: 8px; padding: 11px 12px; font-size: 15px; font-family: inherit;
-  outline: none; transition: border-color .2s; appearance: none;
-  -webkit-appearance: none;
-}
-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b949e' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
-select:focus, input:focus { border-color: var(--accent); }
-option { background: var(--bg); color: var(--text); }
-.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-input[type="range"] { width: 100%; margin-top: 6px; accent-color: var(--accent); height: 4px; }
-.m2-val { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); font-weight: 600; text-align: right; margin-top: 4px; }
+/* ── SWITCHER (country / type) ── */
+.sw{display:flex;gap:0;border-radius:var(--radius-sm);overflow:hidden;background:var(--surface2);padding:4px;margin-bottom:12px}
+.sw-btn{flex:1;padding:11px 8px;text-align:center;cursor:pointer;font-size:14px;font-family:inherit;font-weight:600;border:none;background:transparent;color:var(--text2);transition:all .25s;border-radius:var(--radius-xs);touch-action:manipulation}
+.sw-btn:active{transform:scale(.97)}
+.sw-btn.on{background:var(--surface);color:var(--primary);box-shadow:var(--shadow-sm)}
+.sw3 .sw-btn{font-size:12px;padding:10px 6px}
 
-/* Chips */
-.chips { display: flex; flex-wrap: wrap; gap: 7px; }
-.chip {
-  padding: 8px 13px; border-radius: 20px; font-size: 11px; cursor: pointer;
-  border: 1px solid var(--border); background: var(--bg); color: var(--muted);
-  transition: all .15s; user-select: none; font-weight: 500;
-  -webkit-user-select: none; touch-action: manipulation;
+/* ── FORM ── */
+label{display:block;font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase}
+select,input[type="number"]{
+  width:100%;background:var(--surface2);border:1.5px solid transparent;color:var(--text);
+  border-radius:var(--radius-xs);padding:12px 14px;font-size:15px;font-family:inherit;font-weight:500;
+  outline:none;transition:all .2s;appearance:none;-webkit-appearance:none;
 }
-.chip:active { transform: scale(0.96); }
-.chip.on { background: rgba(88,166,255,.12); border-color: var(--accent); color: var(--accent); }
-.chip.neg.on { background: rgba(248,81,73,.12); border-color: var(--red); color: var(--red); }
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239aa0a6' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+select:focus,input:focus{border-color:var(--primary);background:var(--primary-light)}
+option{background:var(--surface);color:var(--text)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:400px){.g2{grid-template-columns:1fr}}
+input[type="range"]{width:100%;margin-top:8px;accent-color:var(--primary);height:4px;border-radius:2px}
+input[type="range"]::-webkit-slider-thumb{width:20px;height:20px}
+.m2v{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--primary);font-weight:600;text-align:right;margin-top:4px}
 
-/* Floor */
-.fl-grid { display: flex; flex-wrap: wrap; gap: 6px; }
-.fl-btn {
-  padding: 8px 11px; border-radius: 8px; font-size: 11px; cursor: pointer;
-  border: 1px solid var(--border); background: var(--bg); color: var(--muted);
-  transition: all .15s; font-family: inherit; font-weight: 500;
-  touch-action: manipulation;
+/* ── CHIPS ── */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  padding:9px 14px;border-radius:100px;font-size:12px;cursor:pointer;
+  border:1.5px solid var(--border);background:var(--surface);color:var(--text2);
+  transition:all .2s;user-select:none;font-weight:600;-webkit-user-select:none;touch-action:manipulation;
+  box-shadow:var(--shadow-sm);
 }
-.fl-btn:active { transform: scale(0.96); }
-.fl-btn.on { background: rgba(88,166,255,.12); border-color: var(--accent); color: var(--accent); }
+.chip:active{transform:scale(.95)}
+.chip.on{background:var(--primary-light);border-color:var(--primary);color:var(--primary)}
+.chip.neg.on{background:var(--red-bg);border-color:var(--red);color:var(--red)}
 
-/* Result */
-.res {
-  background: linear-gradient(135deg, #161b22 0%, #1a2332 100%);
-  border: 1px solid var(--accent); border-radius: 14px; padding: 22px 18px;
-  text-align: center; position: relative; overflow: hidden;
+/* ── FLOOR ── */
+.fl-grid{display:flex;flex-wrap:wrap;gap:8px}
+.fl-btn{
+  padding:9px 13px;border-radius:100px;font-size:11px;cursor:pointer;
+  border:1.5px solid var(--border);background:var(--surface);color:var(--text2);
+  transition:all .2s;font-family:inherit;font-weight:600;touch-action:manipulation;box-shadow:var(--shadow-sm);
 }
-.res::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
-.price-main { font-size: 36px; font-weight: 700; font-family: 'JetBrains Mono', monospace; letter-spacing: -1px; }
-.price-range { font-size: 12px; color: var(--muted); margin-top: 3px; font-family: 'JetBrains Mono', monospace; }
-.price-m2 { font-size: 13px; color: var(--accent); margin-top: 8px; font-weight: 600; }
+.fl-btn:active{transform:scale(.95)}
+.fl-btn.on{background:var(--primary-light);border-color:var(--primary);color:var(--primary)}
 
-/* Bars */
-.bars { margin-top: 18px; }
-.bar-r { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
-.bar-l { font-size: 10px; color: var(--muted); min-width: 80px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.bar-t { flex: 1; height: 5px; background: rgba(48,54,61,.5); border-radius: 3px; overflow: hidden; }
-.bar-f { height: 100%; border-radius: 3px; transition: width .4s ease; }
-.bar-v { font-size: 10px; font-family: 'JetBrains Mono', monospace; min-width: 44px; }
-.pos { color: var(--green); } .neg { color: var(--red); }
+/* ── RESULT ── */
+.res{
+  background:var(--surface);border:none;border-radius:20px;padding:28px 20px;
+  text-align:center;position:relative;overflow:hidden;
+  box-shadow:var(--shadow-lg);
+}
+.res::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#1a73e8,#34a853,#fbbc04,#ea4335);border-radius:4px 4px 0 0}
+.price-main{font-size:38px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-1.5px;color:var(--text);margin-top:4px}
+.price-sec{font-size:15px;color:var(--text3);margin-top:2px;font-family:'JetBrains Mono',monospace;font-weight:500}
+.price-range{
+  display:inline-block;margin-top:10px;padding:6px 16px;border-radius:100px;
+  background:var(--surface2);font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace;font-weight:500;
+}
+.price-m2{font-size:13px;color:var(--primary);margin-top:12px;font-weight:700}
 
-/* Breakdown */
-.bd-toggle {
-  background: none; border: 1px solid var(--border); color: var(--muted); padding: 10px;
-  border-radius: 8px; cursor: pointer; font-size: 12px; font-family: inherit;
-  font-weight: 500; width: 100%; margin-top: 16px; touch-action: manipulation;
-}
-.bd-toggle:active { background: rgba(88,166,255,.05); }
-.bd-base, .bd-total {
-  display: flex; justify-content: space-between; padding: 10px 0;
-  font-weight: 600; font-size: 13px;
-}
-.bd-base { border-bottom: 1px solid var(--border); margin-bottom: 2px; }
-.bd-total { border-top: 2px solid var(--accent); margin-top: 4px; }
-.bd-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 7px 0; border-bottom: 1px solid rgba(48,54,61,.4); font-size: 12px;
-}
-.bd-row:last-child { border-bottom: none; }
-.bd-name { color: var(--text); font-weight: 500; }
-.bd-det { color: var(--muted); font-size: 10px; margin-top: 1px; }
-.bd-fac { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; text-align: right; white-space: nowrap; }
-.bd-eur { font-size: 9px; opacity: .7; margin-left: 3px; }
+/* ── BARS ── */
+.bars{margin-top:20px;text-align:left}
+.bar-r{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.bar-l{font-size:10px;color:var(--text3);min-width:80px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.bar-t{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.bar-f{height:100%;border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.bar-v{font-size:10px;font-family:'JetBrains Mono',monospace;min-width:48px;font-weight:600}
+.pos{color:var(--green)}.neg{color:var(--red)}
 
-/* Disclaimer */
-.disc {
-  margin-top: 20px; padding: 12px 14px; background: rgba(210,153,34,.08);
-  border: 1px solid rgba(210,153,34,.25); border-radius: 10px;
-  font-size: 11px; color: var(--yellow); line-height: 1.5;
+/* ── BREAKDOWN ── */
+.bd-toggle{
+  background:var(--surface);border:1.5px solid var(--border);color:var(--text2);padding:12px;
+  border-radius:var(--radius-sm);cursor:pointer;font-size:13px;font-family:inherit;
+  font-weight:600;width:100%;margin-top:14px;touch-action:manipulation;box-shadow:var(--shadow-sm);
+  transition:all .2s;
 }
-.src { font-size: 9px; color: var(--muted); text-align: center; margin-top: 14px; letter-spacing: .5px; }
+.bd-toggle:active{background:var(--primary-light);border-color:var(--primary)}
+.bd-base,.bd-total{display:flex;justify-content:space-between;padding:12px 0;font-weight:700;font-size:13px}
+.bd-base{border-bottom:1.5px solid var(--border);margin-bottom:4px}
+.bd-total{border-top:2px solid var(--primary);margin-top:6px}
+.bd-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--surface2);font-size:12px}
+.bd-row:last-child{border-bottom:none}
+.bd-name{color:var(--text);font-weight:600}
+.bd-det{color:var(--text3);font-size:10px;margin-top:1px;font-weight:500}
+.bd-fac{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;text-align:right;white-space:nowrap}
+.bd-eur{font-size:9px;opacity:.6;margin-left:3px}
 
-/* Negot helper */
-.negot { margin-top: 20px; }
-.negot-card {
-  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-  padding: 14px; font-size: 12px; line-height: 1.6;
-}
-.negot-card h3 { font-size: 13px; margin-bottom: 8px; color: var(--accent); font-weight: 600; }
-.arg { padding: 6px 0; border-bottom: 1px solid rgba(48,54,61,.3); }
-.arg:last-child { border: none; }
-.arg-label { font-weight: 600; font-size: 11px; }
-.arg-text { color: var(--muted); font-size: 11px; margin-top: 2px; }
+/* ── NEGOTIATION ── */
+.nc{font-size:12px;line-height:1.7}
+.nc h3{font-size:14px;margin-bottom:10px;color:var(--primary);font-weight:700;display:flex;align-items:center;gap:6px}
+.arg{padding:8px 0;border-bottom:1px solid var(--surface2)}.arg:last-child{border:none}
+.arg-label{font-weight:700;font-size:11px;color:var(--text)}
+.arg-text{color:var(--text2);font-size:11px;margin-top:3px;font-weight:500}
 
-@media (max-width: 400px) {
-  .g2 { grid-template-columns: 1fr; }
-  .bar-l { min-width: 65px; font-size: 9px; }
-  .price-main { font-size: 30px; }
+/* ── FOOTER ── */
+.disc{
+  margin-top:20px;padding:14px 16px;background:var(--yellow-bg);
+  border:1.5px solid rgba(227,116,0,.2);border-radius:var(--radius-sm);
+  font-size:11px;color:var(--yellow);line-height:1.6;font-weight:500;
 }
+.src{font-size:10px;color:var(--text3);text-align:center;margin-top:16px;letter-spacing:.3px;font-weight:500}
+.cn{font-size:11px;color:var(--text3);text-align:center;margin-bottom:14px;font-weight:500}
+.base-badge{margin-top:10px;display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;background:var(--primary-light);font-size:12px;color:var(--primary);font-weight:700;font-family:'JetBrains Mono',monospace}
+@media(max-width:380px){.price-main{font-size:32px}.bar-l{min-width:60px;font-size:9px}}
 </style>
 </head>
 <body>
 <div class="app" id="app"></div>
-
 <script>
-const B={
-"Bratislava – Staré Mesto":{b:5400,t:"p"},"Bratislava – Ružinov":{b:4200,t:"p"},"Bratislava – Nové Mesto":{b:4400,t:"p"},
-"Bratislava – Karlova Ves":{b:4100,t:"p"},"Bratislava – Petržalka":{b:3600,t:"h"},"Bratislava – Dúbravka":{b:3500,t:"h"},
-"Bratislava – Rača":{b:3400,t:"h"},"Bratislava – Vrakuňa":{b:3100,t:"h"},"Bratislava – Podunajské Biskupice":{b:3000,t:"h"},
-"Bratislava – Devínska N. Ves":{b:3200,t:"h"},"Bratislava – Lamač":{b:3300,t:"h"},"Bratislava – Vajnory":{b:3100,t:"h"},
-"Bratislava – Záhorská Bystrica":{b:3000,t:"h"},"Bratislava – Čunovo/Jarovce/Rusovce":{b:2900,t:"h"},
-"Košice – centrum (I)":{b:3200,t:"h"},"Košice – západ (II)":{b:2600,t:"m"},"Košice – Dargovských hr. (III)":{b:2300,t:"m"},
-"Košice – juh (IV)":{b:2500,t:"m"},
-"Žilina":{b:2800,t:"m"},"Banská Bystrica":{b:2600,t:"m"},"Trnava":{b:2700,t:"m"},"Trenčín":{b:2200,t:"m"},
-"Nitra":{b:2100,t:"l"},"Prešov":{b:2200,t:"m"},"Poprad":{b:2400,t:"m"},"Martin":{b:2000,t:"l"},
-"Piešťany":{b:2500,t:"m"},"Senec":{b:3100,t:"h"},"Pezinok":{b:2900,t:"h"},
-"Prievidza":{b:1500,t:"l"},"Zvolen":{b:1900,t:"l"},"Lučenec":{b:1200,t:"b"},"Komárno":{b:1300,t:"b"},
-"Rimavská Sobota":{b:900,t:"b"},"Michalovce":{b:1400,t:"b"},"Humenné":{b:1200,t:"b"},"Bardejov":{b:1300,t:"b"},
-};
+const R=25.2,toE=k=>Math.round(k/R);
+const F_SK={"Bratislava – Staré Mesto":5400,"Bratislava – Ružinov":4200,"Bratislava – Nové Mesto":4400,"Bratislava – Karlova Ves":4100,"Bratislava – Petržalka":3600,"Bratislava – Dúbravka":3500,"Bratislava – Rača":3400,"Bratislava – Vrakuňa":3100,"Bratislava – Podun. Biskupice":3000,"Bratislava – Devínska N. Ves":3200,"Bratislava – Lamač":3300,"Bratislava – Vajnory":3100,"Bratislava – Záhorská Bystrica":3000,"Bratislava – Čunovo/Jarovce":2900,"Košice – centrum (I)":3200,"Košice – západ (II)":2600,"Košice – DH (III)":2300,"Košice – juh (IV)":2500,"Žilina":2800,"Banská Bystrica":2600,"Trnava":2700,"Trenčín":2200,"Nitra":2100,"Prešov":2200,"Poprad":2400,"Martin":2000,"Piešťany":2500,"Senec":3100,"Pezinok":2900,"Prievidza":1500,"Zvolen":1900,"Lučenec":1200,"Komárno":1300,"Rimavská Sobota":900,"Michalovce":1400,"Humenné":1200,"Bardejov":1300};
+const F_CZ={"Praha 1":toE(189000),"Praha 2":toE(153000),"Praha 3":toE(133000),"Praha 4":toE(117000),"Praha 5":toE(123000),"Praha 6":toE(123000),"Praha 7":toE(141000),"Praha 8":toE(130000),"Praha 9":toE(118000),"Praha 10":toE(119000),"Praha – okraj":toE(105000),"Brno – centrum":toE(120000),"Brno – širšie centrum":toE(100000),"Brno – sídlisko":toE(85000),"Plzeň":toE(91000),"Olomouc":toE(90000),"Hradec Králové":toE(94000),"České Budějovice":toE(85000),"Pardubice":toE(85000),"Liberec":toE(78000),"Zlín":toE(86000),"Karlovy Vary":toE(71000),"Jihlava":toE(64000),"Ostrava – centrum":toE(55000),"Ostrava – sídlisko":toE(38000),"Ústí nad Labem":toE(46000),"Most/Litvínov":toE(22000),"Kladno":toE(72000),"Mladá Boleslav":toE(62000),"Opava":toE(42000),"Frýdek-Místek":toE(48000)};
+const H_SK={"Bratislava – mesto":3200,"Bratislava – okolie":2400,"Košice – mesto":2100,"Košice – okolie":1500,"Žilina":1800,"Banská Bystrica":1500,"Trnava":1800,"Trenčín":1400,"Nitra":1400,"Prešov":1300,"Poprad":1600,"Martin":1300,"Piešťany":1700,"Senec":2200,"Pezinok":2100,"Prievidza":1000,"Zvolen":1200,"Lučenec":800,"Komárno":900,"Rimavská Sobota":600,"Michalovce":900,"Humenné":750,"Bardejov":800};
+const H_CZ={"Praha – mesto":toE(107000),"Praha – okolie":toE(80000),"Brno – mesto":toE(65000),"Brno – okolie":toE(50000),"Plzeň":toE(55000),"Olomouc":toE(48000),"Hradec Králové":toE(52000),"České Budějovice":toE(48000),"Pardubice":toE(46000),"Liberec":toE(42000),"Zlín":toE(44000),"Karlovy Vary":toE(38000),"Jihlava":toE(36000),"Ostrava":toE(30000),"Ústí nad Labem":toE(25000),"Most/Litvínov":toE(15000),"Kladno":toE(48000),"Mladá Boleslav":toE(40000),"Opava":toE(28000)};
+const L_SK={"Bratislava – mesto":450,"Bratislava – okolie":200,"Bratislava – širšie okolie":140,"Košice – mesto":150,"Košice – okolie":80,"Trnava":110,"Žilina":65,"Banská Bystrica":95,"Trenčín":60,"Nitra":55,"Prešov":60,"Poprad":70,"Martin":50,"Piešťany":90,"Zvolen":55,"Prievidza":35,"Lučenec":25,"Komárno":30,"Rimavská Sobota":15,"Michalovce":35,"Humenné":25,"Bardejov":25,"Vidiek – západ":50,"Vidiek – stred":30,"Vidiek – východ":20};
+const L_CZ={"Praha – mesto":toE(15000),"Praha – okolie":toE(8000),"Brno – mesto":toE(6000),"Brno – okolie":toE(3500),"Plzeň":toE(4000),"Olomouc":toE(3500),"Hradec Králové":toE(3500),"České Budějovice":toE(3200),"Pardubice":toE(3000),"Liberec":toE(2500),"Zlín":toE(2800),"Karlovy Vary":toE(2200),"Jihlava":toE(2000),"Ostrava":toE(1800),"Ústí nad Labem":toE(1200),"Most/Litvínov":toE(600),"Kladno":toE(3500),"Mladá Boleslav":toE(2500),"Vidiek – Čechy":toE(1500),"Vidiek – Morava":toE(1200)};
 
-const COND=[
-  {k:"Pôvodný stav",f:-0.12,d:"Bez rekonštrukcie"},
-  {k:"Čiastočná rekonštrukcia",f:-0.04,d:"Nové okná, staré jadro"},
-  {k:"Kompletná rekonštrukcia",f:0.06,d:"Kompletne zrekonštruovaný"},
-  {k:"Novostavba / developer",f:0.12,d:"Nový byt, developerský štandard"},
-  {k:"Nadštandard",f:0.20,d:"Prémiové materiály, dizajn"},
-];
+const CF=[{k:"Pôvodný stav",f:-.12},{k:"Čiastočná rek.",f:-.04},{k:"Kompletná rek.",f:.06},{k:"Novostavba",f:.12},{k:"Nadštandard",f:.20}];
+const CH=[{k:"Pôvodný / zbúranie",f:-.20},{k:"Čiastočná rek.",f:-.08},{k:"Dobrý stav",f:0},{k:"Kompletná rek.",f:.08},{k:"Novostavba",f:.15},{k:"Nadštandard / pasívny",f:.25}];
+const BF=[{k:"Panelák",f:-.06},{k:"Tehla / cihla",f:.04},{k:"Zateplený panelák",f:-.02},{k:"Novostavba",f:.10},{k:"Historická budova",f:.06}];
+const BH=[{k:"Panel / montovaný",f:-.08},{k:"Tehla / murovaný",f:.04},{k:"Drevostavba",f:.02},{k:"Pasívny / nízkoenerget.",f:.12},{k:"Zrubový",f:.06}];
+const ORI=[{k:"Juh / JZ",f:.03},{k:"Západ",f:.01},{k:"Východ",f:0},{k:"Sever / SV",f:-.03},{k:"Rohový",f:.04}];
+const FL=[{k:"Prízemie",f:-.06},{k:"1. p.",f:-.02},{k:"2.–3. p.",f:.02},{k:"4.–6. p.",f:.03},{k:"7.–10. p.",f:.01},{k:"11.+",f:-.01},{k:"Posl. bez výťahu",f:-.05},{k:"Posl. s výťahom",f:.02}];
+const EF=[{k:"Balkón / Loggia",f:.03},{k:"Terasa",f:.05},{k:"Výťah",f:.02},{k:"Parking / Garáž",f:.05},{k:"Pivnica",f:.01},{k:"Klimatizácia",f:.015},{k:"Zateplenie",f:.02},{k:"Tichá lokalita",f:.02},{k:"Rušná cesta",f:-.04},{k:"Blízko MHD",f:.02},{k:"Školy",f:.015},{k:"Park / Zeleň",f:.02},{k:"Obchody",f:.015},{k:"Problém. lokalita",f:-.08}];
+const EH=[{k:"Garáž",f:.04},{k:"Bazén",f:.03},{k:"Záhrada > 500m²",f:.03},{k:"Záhrada < 300m²",f:-.02},{k:"Nová strecha / zatepl.",f:.04},{k:"Fotovoltaika / TČ",f:.05},{k:"Pivnica / sklad",f:.01},{k:"Terasa / pergola",f:.02},{k:"Tichá lokalita",f:.03},{k:"Rušná cesta",f:-.04},{k:"Blízko MHD",f:.03},{k:"Školy",f:.015},{k:"Obchody",f:.015},{k:"Odľahlá poloha",f:-.05},{k:"Problém. lokalita",f:-.08}];
+const EL=[{k:"IS na pozemku",f:.12},{k:"IS na hranici",f:.05},{k:"Bez IS",f:-.10},{k:"Rovinatý",f:.04},{k:"Svah / terén",f:-.06},{k:"Prístup. cesta",f:.03},{k:"Bez cesty",f:-.08},{k:"Regulačná neistota",f:-.06},{k:"Tichá lokalita",f:.03},{k:"Rušná cesta",f:-.04},{k:"Blízko centra",f:.05},{k:"Odľahlá poloha",f:-.05},{k:"Stav. povolenie",f:.08},{k:"Zástavba okolo",f:.02}];
 
-const BTYPE=[
-  {k:"Panelový dom",f:-0.06,d:"Panelák"},
-  {k:"Tehlový dom",f:0.04,d:"Tradičná tehla"},
-  {k:"Zateplený panelák",f:-0.02,d:"Panelák po zateplení"},
-  {k:"Novostavba",f:0.10,d:"Nová výstavba"},
-  {k:"Historická budova",f:0.06,d:"Rekonštruovaný historický dom"},
-];
+function sA(m,t){if(t==="flat"){if(m<=30)return{f:.08};if(m<=45)return{f:.04};if(m<=65)return{f:0};if(m<=85)return{f:-.02};if(m<=110)return{f:-.04};return{f:-.06};}if(t==="house"){if(m<=80)return{f:.06};if(m<=120)return{f:.02};if(m<=180)return{f:0};if(m<=250)return{f:-.03};return{f:-.06};}if(m<=300)return{f:.10};if(m<=600)return{f:.04};if(m<=1000)return{f:0};if(m<=2000)return{f:-.04};return{f:-.08};}
 
-const ORI=[
-  {k:"Juh / Juhozápad",f:0.03,d:"Najlepšie svetlo"},
-  {k:"Západ",f:0.01,d:"Popoludňajšie svetlo"},
-  {k:"Východ",f:0.00,d:"Ranné svetlo"},
-  {k:"Sever / Severovýchod",f:-0.03,d:"Najmenej svetla"},
-  {k:"Rohový (2 strany)",f:0.04,d:"Presvetlenie z 2 strán"},
-];
+const fm=n=>new Intl.NumberFormat("sk-SK").format(Math.round(n));
+const fk=n=>new Intl.NumberFormat("cs-CZ").format(Math.round(n));
+const pc=f=>(f>0?"+":"")+(f*100).toFixed(1)+"%";
 
-const FLOOR=[
-  {k:"Prízemie",f:-0.06},{k:"1. p.",f:-0.02},{k:"2.–3. p.",f:0.02},{k:"4.–6. p.",f:0.03},
-  {k:"7.–10. p.",f:0.01},{k:"11.+ p.",f:-0.01},{k:"Posl. (bez výťahu)",f:-0.05},{k:"Posl. (s výťahom)",f:0.02},
-];
+let S={co:"SK",pt:"flat",city:"",m2:68,cond:2,bt:0,ori:0,fl:2,ex:[],bd:false};
+function gDB(){if(S.pt==="flat")return S.co==="SK"?F_SK:F_CZ;if(S.pt==="house")return S.co==="SK"?H_SK:H_CZ;return S.co==="SK"?L_SK:L_CZ;}
+function gC(){return S.pt==="house"?CH:CF;}function gB(){return S.pt==="house"?BH:BF;}
+function gE(){return S.pt==="flat"?EF:S.pt==="house"?EH:EL;}
+function nF(){return S.pt==="flat";}function nO(){return S.pt==="flat";}function nC(){return S.pt!=="land";}function nB(){return S.pt!=="land";}
+function init(){const db=gDB();S.city=Object.keys(db)[0]||"";if(S.pt==="flat"){S.m2=68;S.ex=[0,2,9];S.cond=2;S.bt=0;S.fl=2;}else if(S.pt==="house"){S.m2=140;S.ex=[0];S.cond=2;S.bt=1;S.fl=0;}else{S.m2=600;S.ex=[0];S.cond=0;S.bt=0;S.fl=0;}S.bd=false;}
+init();
 
-const EXT=[
-  {k:"Balkón / Loggia",f:0.03},{k:"Terasa",f:0.05},{k:"Výťah",f:0.02},{k:"Parking / Garáž",f:0.05},
-  {k:"Pivnica",f:0.01},{k:"Klimatizácia",f:0.015},{k:"Zateplenie",f:0.02},{k:"Tichá lokalita",f:0.02},
-  {k:"Rušná cesta",f:-0.04},{k:"Blízko MHD",f:0.02},{k:"Školy v okolí",f:0.015},{k:"Park / Zeleň",f:0.02},
-  {k:"Obchody / Služby",f:0.015},{k:"Problematická lokalita",f:-0.08},
-];
+function calc(){const db=gDB();const b=db[S.city];if(!b)return null;let tf=0;const a=[];
+if(nC()){const c=gC()[S.cond]||gC()[0];a.push({n:"Stav",d:c.k,f:c.f});tf+=c.f;}
+if(nB()){const bt=gB()[S.bt]||gB()[0];a.push({n:"Typ stavby",d:bt.k,f:bt.f});tf+=bt.f;}
+if(nO()){const o=ORI[S.ori];a.push({n:"Orientácia",d:o.k,f:o.f});tf+=o.f;}
+if(nF()){const fl=FL[S.fl];a.push({n:"Poschodie",d:fl.k,f:fl.f});tf+=fl.f;}
+const sz=sA(S.m2,S.pt);a.push({n:"Veľkosť",d:S.m2+" m²",f:sz.f});tf+=sz.f;
+const exts=gE();S.ex.forEach(i=>{if(exts[i]){a.push({n:exts[i].k,d:"",f:exts[i].f});tf+=exts[i].f;}});
+const pm=b*(1+tf);const tot=pm*S.m2;const sp=S.pt==="land"?.12:.08;
+return{b,a,tf,pm,tot,lo:tot*(1-sp),hi:tot*(1+sp)};}
 
-function sizeAdj(m2){
-  if(m2<=30) return {f:0.08,d:"Garsónka – prémia za m²"};
-  if(m2<=45) return {f:0.04,d:"Malý byt – vyššia €/m²"};
-  if(m2<=65) return {f:0.00,d:"Štandard – neutrálna"};
-  if(m2<=85) return {f:-0.02,d:"Väčší byt – mierna zľava"};
-  if(m2<=110) return {f:-0.04,d:"Veľký byt – zľava za m²"};
-  return {f:-0.06,d:"Nadrozmerný – výrazná zľava"};
-}
+function ps(e,c){return S.co==="CZ"&&c?`${fm(e)} € <span style="color:var(--text3);font-size:.8em">(${fk(e*R)} Kč)</span>`:`${fm(e)} €`;}
+function pp(e){return S.co==="CZ"?`${fm(e)} € / ${fk(e*R)} Kč`:`${fm(e)} €`;}
 
-const fmt=n=>new Intl.NumberFormat("sk-SK").format(Math.round(n));
-const pct=f=>(f>0?"+":"")+(f*100).toFixed(1)+"%";
+function gr(){const db=gDB();const k=Object.keys(db);
+if(S.co==="SK"){const ba=k.filter(x=>x.startsWith("Brat"));const ke=k.filter(x=>x.startsWith("Koš"));const o=k.filter(x=>!x.startsWith("Brat")&&!x.startsWith("Koš"));const g=[];if(ba.length)g.push({l:"Bratislava",i:ba});if(ke.length)g.push({l:"Košice",i:ke});if(o.length)g.push({l:"Ostatné",i:o});return g;}
+const pr=k.filter(x=>x.startsWith("Pra"));const br=k.filter(x=>x.startsWith("Brn"));const o=k.filter(x=>!x.startsWith("Pra")&&!x.startsWith("Brn"));const g=[];if(pr.length)g.push({l:"Praha",i:pr});if(br.length)g.push({l:"Brno",i:br});if(o.length)g.push({l:"Ostatné",i:o});return g;}
 
-let state={
-  city:"Bratislava – Petržalka", m2:68, cond:2, btype:0, ori:0, floor:2,
-  extras:[0,2,9], showBD:false
-};
+function gArgs(v){if(!v)return[];const a=[];const neg=v.a.filter(x=>x.f<0);
+if(neg.length){const tn=neg.reduce((s,x)=>s+x.f,0);a.push({l:"Zrážky z trhovej ceny",t:`${neg.map(x=>x.n).join(", ")} → −${(Math.abs(tn)*100).toFixed(1)}% (~${pp(v.b*Math.abs(tn)*S.m2)})`});}
+if(S.m2>(S.pt==="flat"?85:S.pt==="house"?250:2000))a.push({l:"Veľká výmera",t:"Väčšie nehnuteľnosti = dlhší predaj = silnejšia pozícia kupujúceho."});
+if(v.tf<0)a.push({l:"Celková korekcia",t:`Parametre znižujú hodnotu o ${(Math.abs(v.tf)*100).toFixed(1)}% oproti priemeru lokality.`});
+const sp=S.pt==="land"?12:8;a.push({l:"Vyjednávacie rozpätie",t:`${pp(v.lo)} – ${pp(v.hi)} (±${sp}%)`});
+if(S.pt==="land")a.push({l:"Pozemok – due diligence",t:"Overte: ÚP, IS, vecné bremená, ochranné pásma, prístup. Tieto faktory menia cenu o desiatky %."});
+return a;}
 
-function calc(){
-  const loc=B[state.city]; if(!loc) return null;
-  const base=loc.b; let tf=0; const adjs=[];
+function ptL(){return S.pt==="flat"?"Byt":S.pt==="house"?"Dom":"Pozemok";}
+function m2L(){return S.pt==="flat"?"Výmera bytu (m²)":S.pt==="house"?"Úžitková plocha (m²)":"Výmera pozemku (m²)";}
+function mR(){return S.pt==="flat"?[15,200]:S.pt==="house"?[40,500]:[100,5000];}
 
-  const c=COND[state.cond]; adjs.push({n:"Stav bytu",d:c.k,f:c.f}); tf+=c.f;
-  const bt=BTYPE[state.btype]; adjs.push({n:"Typ budovy",d:bt.k,f:bt.f}); tf+=bt.f;
-  const o=ORI[state.ori]; adjs.push({n:"Orientácia",d:o.k,f:o.f}); tf+=o.f;
-  const fl=FLOOR[state.floor]; adjs.push({n:"Poschodie",d:fl.k,f:fl.f}); tf+=fl.f;
-  const sz=sizeAdj(state.m2); adjs.push({n:"Veľkosť",d:state.m2+" m²",f:sz.f}); tf+=sz.f;
-  state.extras.forEach(i=>{const e=EXT[i]; adjs.push({n:e.k,d:"",f:e.f}); tf+=e.f;});
+function render(){const v=calc();const db=gDB();const base=db[S.city];const gs=gr();const args=gArgs(v);
+const isCZ=S.co==="CZ";const cn=gC();const bt=gB();const ex=gE();const[mMin,mMax]=mR();
 
-  const pm2=base*(1+tf); const tot=pm2*state.m2;
-  return {base,adjs,tf,pm2,tot,lo:tot*.92,hi:tot*1.08};
-}
+document.getElementById("app").innerHTML=`
+<div class="hdr"><h1>Oceňovanie nehnuteľností</h1><p>Slovensko & Česko · Q1 2026</p></div>
 
-function genNegotArgs(v){
-  if(!v) return [];
-  const args=[];
-  const negAdjs=v.adjs.filter(a=>a.f<0);
-  const posAdjs=v.adjs.filter(a=>a.f>0);
+<div class="sw"><button class="sw-btn ${S.co==="SK"?"on":""}" data-co="SK">🇸🇰 Slovensko</button><button class="sw-btn ${S.co==="CZ"?"on":""}" data-co="CZ">🇨🇿 Česko</button></div>
+<div class="sw sw3"><button class="sw-btn ${S.pt==="flat"?"on":""}" data-pt="flat">🏢 Byt</button><button class="sw-btn ${S.pt==="house"?"on":""}" data-pt="house">🏠 Dom</button><button class="sw-btn ${S.pt==="land"?"on":""}" data-pt="land">📐 Pozemok</button></div>
+${isCZ?'<div class="cn">Ceny v € · kurz 25,2 Kč/€ · Kč v zátvorkách</div>':""}
 
-  if(negAdjs.length>0){
-    const totalNeg=negAdjs.reduce((s,a)=>s+a.f,0);
-    args.push({
-      label:"Zrážky z trhovej ceny",
-      text:`Faktory znižujúce hodnotu (${negAdjs.map(a=>a.n).join(", ")}) znižujú cenu o ${(Math.abs(totalNeg)*100).toFixed(1)}%, čo je ~${fmt(v.base*Math.abs(totalNeg)*state.m2)} €.`
-    });
-  }
+<div class="sec"><div class="sec-t">Lokalita</div><div class="crd">
+<label>${isCZ?"Město":"Mesto"} / Oblasť</label>
+<select id="sel-c">${gs.map(g=>`<optgroup label="${g.l}">${g.i.map(k=>`<option value="${k}" ${k===S.city?"selected":""}>${k}</option>`).join("")}</optgroup>`).join("")}</select>
+${base!=null?`<div class="base-badge">${ps(base,true)}/m²</div>`:""}</div></div>
 
-  const loc=B[state.city];
-  if(loc && loc.t==="b"){
-    args.push({label:"Nízka likvidita lokality",text:"V tejto lokalite je obmedzený dopyt – predajné doby sú dlhšie, čo dáva kupujúcemu vyjednávaciu pozíciu."});
-  }
-  if(state.m2>85){
-    args.push({label:"Veľký byt = menší dopyt",text:"Väčšie byty sa predávajú pomalšie. Segment 2–3 izbových bytov je najlikvidnejší."});
-  }
-  if(v.tf<0){
-    args.push({label:"Celková trhová korekcia",text:`Kombinácia parametrov znižuje trhovú hodnotu o ${(Math.abs(v.tf)*100).toFixed(1)}% oproti priemeru v danej lokalite.`});
-  }
-  args.push({
-    label:"Rozpätie na rokovanie",
-    text:`Realistický rozsah: ${fmt(v.lo)} – ${fmt(v.hi)} €. Ak predávajúci ponúka nad ${fmt(v.hi)} €, máte dáta na to aby ste argumentovali znížením.`
-  });
-  return args;
-}
+<div class="sec"><div class="sec-t">Parametre – ${ptL()}</div><div class="crd">
+<div class="${nC()?"g2":""}">
+<div><label>${m2L()}</label><input type="number" id="inp-m" value="${S.m2}" min="${mMin}" max="${mMax}" inputmode="numeric"><input type="range" id="rng-m" min="${mMin}" max="${mMax}" value="${Math.min(S.m2,mMax)}"><div class="m2v">${fm(S.m2)} m²</div></div>
+${nC()?`<div><label>Stav</label><select id="sel-co">${cn.map((c,i)=>`<option value="${i}" ${i===S.cond?"selected":""}>${c.k}</option>`).join("")}</select></div>`:""}</div>
+${nB()?`<div class="${nO()?"g2":""}" style="margin-top:12px">
+<div><label>Typ stavby</label><select id="sel-bt">${bt.map((b,i)=>`<option value="${i}" ${i===S.bt?"selected":""}>${b.k}</option>`).join("")}</select></div>
+${nO()?`<div><label>Orientácia</label><select id="sel-or">${ORI.map((o,i)=>`<option value="${i}" ${i===S.ori?"selected":""}>${o.k}</option>`).join("")}</select></div>`:""}</div>`:""}</div></div>
 
-function render(){
-  const v=calc();
-  const keys=Object.keys(B);
-  const baKeys=keys.filter(k=>k.startsWith("Bratislava"));
-  const keKeys=keys.filter(k=>k.startsWith("Košice"));
-  const otherKeys=keys.filter(k=>!k.startsWith("Bratislava")&&!k.startsWith("Košice"));
-  const loc=B[state.city];
+${nF()?`<div class="sec"><div class="sec-t">Poschodie</div><div class="crd"><div class="fl-grid">${FL.map((f,i)=>`<button class="fl-btn ${i===S.fl?"on":""}" data-fi="${i}">${f.k}</button>`).join("")}</div></div></div>`:""}
 
-  const negArgs=genNegotArgs(v);
+<div class="sec"><div class="sec-t">${S.pt==="land"?"Parametre pozemku":"Vybavenie & okolie"}</div><div class="crd"><div class="chips">${ex.map((e,i)=>`<button class="chip ${e.f<0?"neg":""} ${S.ex.includes(i)?"on":""}" data-ei="${i}">${e.f>0?"+":""}${(e.f*100).toFixed(1)}% ${e.k}</button>`).join("")}</div></div></div>
 
-  document.getElementById("app").innerHTML=`
-    <div class="hdr">
-      <h1>Oceňovanie nehnuteľností SK</h1>
-      <p>Odhad trhovej ceny bytu · Q1 2026 · Realitná únia SR, NBS</p>
-    </div>
+${v?`
+<div class="sec"><div class="sec-t">Odhad trhovej ceny</div>
+<div class="res">
+<div class="price-main">${fm(v.tot)} €</div>
+${isCZ?`<div class="price-sec">${fk(v.tot*R)} Kč</div>`:""}
+<div class="price-range">${fm(v.lo)} – ${fm(v.hi)} €${isCZ?` · ${fk(v.lo*R)} – ${fk(v.hi*R)} Kč`:""}</div>
+<div class="price-m2">${fm(v.pm)} €/m²${isCZ?` · ${fk(v.pm*R)} Kč/m²`:""} · ${fm(S.m2)} m² · ${pc(v.tf)}</div>
+<div class="bars">${v.a.filter(x=>x.f!==0).map(x=>{const mx=Math.max(...v.a.map(y=>Math.abs(y.f)),.01);const w=Math.abs(x.f)/mx*100;return`<div class="bar-r"><span class="bar-l">${x.n}</span><div class="bar-t"><div class="bar-f" style="width:${w}%;background:${x.f>0?"#34a853":"#ea4335"};opacity:.85"></div></div><span class="bar-v ${x.f>0?"pos":"neg"}">${pc(x.f)}</span></div>`;}).join("")}</div></div>
 
-    <div class="sec">
-      <div class="sec-t">Lokalita</div>
-      <div class="crd">
-        <label>Mesto / Mestská časť</label>
-        <select id="sel-city">
-          <optgroup label="Bratislava">${baKeys.map(k=>`<option value="${k}" ${k===state.city?"selected":""}>${k}</option>`).join("")}</optgroup>
-          <optgroup label="Košice">${keKeys.map(k=>`<option value="${k}" ${k===state.city?"selected":""}>${k}</option>`).join("")}</optgroup>
-          <optgroup label="Ostatné mestá">${otherKeys.map(k=>`<option value="${k}" ${k===state.city?"selected":""}>${k}</option>`).join("")}</optgroup>
-        </select>
-        ${loc?`<div style="margin-top:8px;font-size:12px;color:var(--muted)">Báza: <span style="font-family:'JetBrains Mono',monospace;color:var(--text);font-weight:600">${fmt(loc.b)} €/m²</span></div>`:""}
-      </div>
-    </div>
+<button class="bd-toggle" id="btn-bd">${S.bd?"▾ Skryť detailný rozpis":"▸ Zobraziť detailný rozpis"}</button>
+${S.bd?`<div class="crd" style="margin-top:12px">
+<div class="bd-base"><span>Báza · ${S.city}</span><span style="font-family:'JetBrains Mono',monospace">${ps(v.b,true)}/m²</span></div>
+${v.a.map(x=>`<div class="bd-row"><div><div class="bd-name">${x.n}</div><div class="bd-det">${x.d}</div></div><div class="bd-fac ${x.f>0?"pos":x.f<0?"neg":""}">${pc(x.f)}<span class="bd-eur">(${x.f>0?"+":""}${fm(v.b*x.f)} €)</span></div></div>`).join("")}
+<div class="bd-total"><span>Cena za m²</span><span style="font-family:'JetBrains Mono',monospace;color:var(--primary)">${ps(v.pm,true)}/m²</span></div>
+<div class="bd-total" style="border-top-width:1px;border-color:var(--border)"><span>Celkom · ${fm(S.m2)} m²</span><span style="font-family:'JetBrains Mono',monospace;font-size:15px">${ps(v.tot,true)}</span></div></div>`:""}</div>
 
-    <div class="sec">
-      <div class="sec-t">Parametre bytu</div>
-      <div class="crd">
-        <div class="g2">
-          <div>
-            <label>Výmera (m²)</label>
-            <input type="number" id="inp-m2" value="${state.m2}" min="15" max="300" inputmode="numeric">
-            <input type="range" id="rng-m2" min="15" max="200" value="${state.m2}" style="margin-top:6px">
-            <div class="m2-val">${state.m2} m²</div>
-          </div>
-          <div>
-            <label>Stav bytu</label>
-            <select id="sel-cond">${COND.map((c,i)=>`<option value="${i}" ${i===state.cond?"selected":""}>${c.k}</option>`).join("")}</select>
-          </div>
-        </div>
-        <div class="g2" style="margin-top:10px">
-          <div>
-            <label>Typ budovy</label>
-            <select id="sel-bt">${BTYPE.map((b,i)=>`<option value="${i}" ${i===state.btype?"selected":""}>${b.k}</option>`).join("")}</select>
-          </div>
-          <div>
-            <label>Orientácia okien</label>
-            <select id="sel-ori">${ORI.map((o,i)=>`<option value="${i}" ${i===state.ori?"selected":""}>${o.k}</option>`).join("")}</select>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="sec"><div class="sec-t">Argumenty na rokovanie</div><div class="crd nc">
+<h3>💬 Ako obhájiť cenu</h3>
+${args.map(a=>`<div class="arg"><div class="arg-label">${a.l}</div><div class="arg-text">${a.t}</div></div>`).join("")}</div></div>
+`:""}
 
-    <div class="sec">
-      <div class="sec-t">Poschodie</div>
-      <div class="crd">
-        <div class="fl-grid">
-          ${FLOOR.map((f,i)=>`<button class="fl-btn ${i===state.floor?"on":""}" data-fi="${i}">${f.k}</button>`).join("")}
-        </div>
-      </div>
-    </div>
+<div class="disc">⚠️ Orientačný odhad · Q1 2026. ${S.pt==="land"?"Rozpätie ±12%.":"Rozpätie ±8%."} ${isCZ?"Kurz 25,2 Kč/€. ":""}Nie je znalecký posudok.</div>
+<div class="src">${isCZ?"ČSÚ · ČNB · hyponamiru.cz · Banky.cz":"Realitná únia SR · NBS · nehnutelnosti.sk"} · Apríl 2026</div>`;
 
-    <div class="sec">
-      <div class="sec-t">Vybavenie & okolie</div>
-      <div class="crd">
-        <div class="chips">
-          ${EXT.map((e,i)=>`<button class="chip ${e.f<0?"neg":""} ${state.extras.includes(i)?"on":""}" data-ei="${i}">${e.f>0?"+":""}${(e.f*100).toFixed(1)}% ${e.k}</button>`).join("")}
-        </div>
-      </div>
-    </div>
-
-    ${v?`
-    <div class="sec">
-      <div class="sec-t">Odhad trhovej ceny</div>
-      <div class="res">
-        <div class="price-main">${fmt(v.tot)} €</div>
-        <div class="price-range">${fmt(v.lo)} € – ${fmt(v.hi)} €</div>
-        <div class="price-m2">${fmt(v.pm2)} €/m² · ${state.m2} m² · ${pct(v.tf)}</div>
-        <div class="bars">
-          ${v.adjs.filter(a=>a.f!==0).map(a=>{
-            const mx=Math.max(...v.adjs.map(x=>Math.abs(x.f)),0.01);
-            const w=Math.abs(a.f)/mx*100;
-            return `<div class="bar-r">
-              <span class="bar-l">${a.n}</span>
-              <div class="bar-t"><div class="bar-f" style="width:${w}%;background:${a.f>0?"var(--green)":"var(--red)"};opacity:.7"></div></div>
-              <span class="bar-v ${a.f>0?"pos":"neg"}">${pct(a.f)}</span>
-            </div>`;
-          }).join("")}
-        </div>
-      </div>
-
-      <button class="bd-toggle" id="btn-bd">${state.showBD?"▾ Skryť rozpis":"▸ Detailný rozpis"}</button>
-      ${state.showBD?`
-      <div class="crd" style="margin-top:10px">
-        <div class="bd-base">
-          <span>Báza (${state.city})</span>
-          <span style="font-family:'JetBrains Mono',monospace">${fmt(v.base)} €/m²</span>
-        </div>
-        ${v.adjs.map(a=>`
-          <div class="bd-row">
-            <div><div class="bd-name">${a.n}</div><div class="bd-det">${a.d}</div></div>
-            <div class="bd-fac ${a.f>0?"pos":a.f<0?"neg":""}">${pct(a.f)}<span class="bd-eur">(${a.f>0?"+":""}${fmt(v.base*a.f)} €)</span></div>
-          </div>
-        `).join("")}
-        <div class="bd-total">
-          <span>Cena za m²</span>
-          <span style="font-family:'JetBrains Mono',monospace;color:var(--accent)">${fmt(v.pm2)} €/m²</span>
-        </div>
-        <div class="bd-total" style="border-top-width:1px;border-color:var(--border)">
-          <span>Celkom (${state.m2} m²)</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:15px">${fmt(v.tot)} €</span>
-        </div>
-      </div>`:""}
-    </div>
-
-    <div class="sec negot">
-      <div class="sec-t">Argumenty na rokovanie</div>
-      <div class="negot-card">
-        <h3>Ako obhájiť cenu pred majiteľom</h3>
-        ${negArgs.map(a=>`<div class="arg"><div class="arg-label">${a.label}</div><div class="arg-text">${a.text}</div></div>`).join("")}
-      </div>
-    </div>
-    `:""}
-
-    <div class="disc">⚠️ Orientačný odhad na základe priemerných trhových dát Q1 2026. Skutočná cena závisí od konkrétnych podmienok (ulica, stav domu, právny stav, urgentnosť predaja). Rozpätie ±8% pokrýva väčšinu odchýlok. Použite ako základ pre rokovanie — nie ako znalecký posudok.</div>
-    <div class="src">Realitná únia SR · NBS · HERRYS · nehnutelnosti.sk · Apríl 2026</div>
-  `;
-
-  // Events
-  document.getElementById("sel-city").onchange=e=>{state.city=e.target.value;render()};
-  document.getElementById("inp-m2").onchange=e=>{state.m2=Math.max(15,Math.min(300,+e.target.value));render()};
-  document.getElementById("rng-m2").oninput=e=>{state.m2=+e.target.value;render()};
-  document.getElementById("sel-cond").onchange=e=>{state.cond=+e.target.value;render()};
-  document.getElementById("sel-bt").onchange=e=>{state.btype=+e.target.value;render()};
-  document.getElementById("sel-ori").onchange=e=>{state.ori=+e.target.value;render()};
-  document.querySelectorAll("[data-fi]").forEach(el=>el.onclick=()=>{state.floor=+el.dataset.fi;render()});
-  document.querySelectorAll("[data-ei]").forEach(el=>el.onclick=()=>{
-    const i=+el.dataset.ei;
-    state.extras=state.extras.includes(i)?state.extras.filter(x=>x!==i):[...state.extras,i];
-    render();
-  });
-  const bdBtn=document.getElementById("btn-bd");
-  if(bdBtn) bdBtn.onclick=()=>{state.showBD=!state.showBD;render()};
-}
-
+// events
+document.querySelectorAll("[data-co]").forEach(el=>el.onclick=()=>{if(el.dataset.co!==S.co){S.co=el.dataset.co;init();render();}});
+document.querySelectorAll("[data-pt]").forEach(el=>el.onclick=()=>{if(el.dataset.pt!==S.pt){S.pt=el.dataset.pt;init();render();}});
+const sc=document.getElementById("sel-c");if(sc)sc.onchange=e=>{S.city=e.target.value;render();};
+const im=document.getElementById("inp-m");if(im)im.onchange=e=>{S.m2=Math.max(mMin,Math.min(mMax,+e.target.value));render();};
+const rm=document.getElementById("rng-m");if(rm)rm.oninput=e=>{S.m2=+e.target.value;render();};
+const sco=document.getElementById("sel-co");if(sco)sco.onchange=e=>{S.cond=+e.target.value;render();};
+const sbt=document.getElementById("sel-bt");if(sbt)sbt.onchange=e=>{S.bt=+e.target.value;render();};
+const sor=document.getElementById("sel-or");if(sor)sor.onchange=e=>{S.ori=+e.target.value;render();};
+document.querySelectorAll("[data-fi]").forEach(el=>el.onclick=()=>{S.fl=+el.dataset.fi;render();});
+document.querySelectorAll("[data-ei]").forEach(el=>el.onclick=()=>{const i=+el.dataset.ei;S.ex=S.ex.includes(i)?S.ex.filter(x=>x!==i):[...S.ex,i];render();});
+const bd=document.getElementById("btn-bd");if(bd)bd.onclick=()=>{S.bd=!S.bd;render();};}
 render();
 </script>
 </body>
