@@ -2,13 +2,14 @@
 <html lang="sk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f8fafb">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="mobile-web-app-capable" content="yes">
 <title>Oceňovanie SK & CZ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -16,14 +17,24 @@
   --bg:#f8fafb;--surface:#ffffff;--surface2:#f0f3f5;--border:#e3e7eb;
   --text:#1a1d21;--text2:#5f6368;--text3:#9aa0a6;
   --primary:#1a73e8;--primary-light:#e8f0fe;--primary-dark:#1557b0;
-  --green:#0d652d;--green-bg:#e6f4ea;--red:#c5221f;--red-bg:#fce8e6;
+  --green:#0d652d;--green-bg:#e6f4ea;--green-bar:#34a853;
+  --red:#c5221f;--red-bg:#fce8e6;--red-bar:#ea4335;
   --yellow:#e37400;--yellow-bg:#fef7e0;
-  --shadow-sm:0 1px 3px rgba(0,0,0,.08);--shadow-md:0 2px 8px rgba(0,0,0,.1);--shadow-lg:0 4px 16px rgba(0,0,0,.12);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08);
+  --shadow-md:0 2px 8px rgba(0,0,0,.1);
+  --shadow-lg:0 4px 16px rgba(0,0,0,.12);
   --radius:16px;--radius-sm:12px;--radius-xs:8px;
 }
 html{background:var(--bg)}
-body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
-.app{max-width:520px;margin:0 auto;padding:0 16px 100px}
+body{
+  font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;
+  -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
+  overscroll-behavior:none;
+}
+button,input,select{font:inherit}
+button{border:none}
+.app{max-width:520px;margin:0 auto;padding:0 16px calc(100px + env(safe-area-inset-bottom))}
 .hdr{padding:28px 0 20px;text-align:center;position:sticky;top:0;background:var(--bg);z-index:10}
 .hdr h1{font-size:22px;font-weight:800;letter-spacing:-.5px;color:var(--text)}
 .hdr p{font-size:12px;color:var(--text3);margin-top:4px;font-weight:500}
@@ -34,18 +45,28 @@ body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--b
 .sec-t{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);font-weight:700;margin-bottom:10px;padding-left:4px}
 .crd{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm)}
 .sw{display:flex;gap:0;border-radius:var(--radius-sm);overflow:hidden;background:var(--surface2);padding:4px;margin-bottom:12px}
-.sw-btn{flex:1;padding:11px 8px;text-align:center;cursor:pointer;font-size:14px;font-family:inherit;font-weight:600;border:none;background:transparent;color:var(--text2);transition:all .25s;border-radius:var(--radius-xs);touch-action:manipulation}
+.sw-btn{
+  flex:1;padding:11px 8px;text-align:center;cursor:pointer;font-size:14px;font-weight:600;
+  border:none;background:transparent;color:var(--text2);transition:background .25s,color .25s,box-shadow .25s,transform .15s;
+  border-radius:var(--radius-xs);touch-action:manipulation;
+}
 .sw-btn:active{transform:scale(.97)}
 .sw-btn.on{background:var(--surface);color:var(--primary);box-shadow:var(--shadow-sm)}
 .sw3 .sw-btn{font-size:12px;padding:10px 6px}
 label{display:block;font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase}
 select,input[type="number"]{
   width:100%;background:var(--surface2);border:1.5px solid transparent;color:var(--text);
-  border-radius:var(--radius-xs);padding:12px 14px;font-size:15px;font-family:inherit;font-weight:500;
-  outline:none;transition:all .2s;appearance:none;-webkit-appearance:none;
+  border-radius:var(--radius-xs);padding:12px 14px;font-size:15px;font-weight:500;
+  outline:none;transition:border-color .2s,background .2s;appearance:none;-webkit-appearance:none;
 }
-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239aa0a6' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239aa0a6' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;
+}
 select:focus,input:focus{border-color:var(--primary);background:var(--primary-light)}
+.sw-btn:focus-visible,.chip:focus-visible,.fl-btn:focus-visible,.bd-toggle:focus-visible,select:focus-visible,input:focus-visible{
+  outline:3px solid rgba(26,115,232,.35);outline-offset:2px;
+}
 option{background:var(--surface);color:var(--text)}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .g2+.g2{margin-top:12px}
@@ -53,38 +74,50 @@ option{background:var(--surface);color:var(--text)}
 input[type="range"]{width:100%;margin-top:8px;accent-color:var(--primary);height:4px;border-radius:2px}
 .m2v{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--primary);font-weight:600;text-align:right;margin-top:4px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:9px 14px;border-radius:100px;font-size:12px;cursor:pointer;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);transition:all .2s;user-select:none;font-weight:600;-webkit-user-select:none;touch-action:manipulation;box-shadow:var(--shadow-sm)}
+.chip{
+  padding:9px 14px;border-radius:100px;font-size:12px;cursor:pointer;border:1.5px solid var(--border);
+  background:var(--surface);color:var(--text2);transition:background .2s,border-color .2s,color .2s,transform .15s;
+  user-select:none;font-weight:600;-webkit-user-select:none;touch-action:manipulation;box-shadow:var(--shadow-sm)
+}
 .chip:active{transform:scale(.95)}
 .chip.on{background:var(--primary-light);border-color:var(--primary);color:var(--primary)}
 .chip.neg.on{background:var(--red-bg);border-color:var(--red);color:var(--red)}
 .fl-grid{display:flex;flex-wrap:wrap;gap:8px}
-.fl-btn{padding:9px 13px;border-radius:100px;font-size:11px;cursor:pointer;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);transition:all .2s;font-family:inherit;font-weight:600;touch-action:manipulation;box-shadow:var(--shadow-sm)}
+.fl-btn{
+  padding:9px 13px;border-radius:100px;font-size:11px;cursor:pointer;border:1.5px solid var(--border);
+  background:var(--surface);color:var(--text2);transition:background .2s,border-color .2s,color .2s,transform .15s;
+  font-weight:600;touch-action:manipulation;box-shadow:var(--shadow-sm)
+}
 .fl-btn:active{transform:scale(.95)}
 .fl-btn.on{background:var(--primary-light);border-color:var(--primary);color:var(--primary)}
 .res{background:var(--surface);border:none;border-radius:20px;padding:28px 20px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
 .res::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#1a73e8,#34a853,#fbbc04,#ea4335);border-radius:4px 4px 0 0}
-.price-main{font-size:38px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-1.5px;color:var(--text);margin-top:4px}
+.price-main{font-size:38px;font-weight:800;letter-spacing:-1.5px;color:var(--text);margin-top:4px}
 .price-sec{font-size:15px;color:var(--text3);margin-top:2px;font-family:'JetBrains Mono',monospace;font-weight:500}
 .price-range{display:inline-block;margin-top:10px;padding:6px 16px;border-radius:100px;background:var(--surface2);font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace;font-weight:500}
 .price-m2{font-size:13px;color:var(--primary);margin-top:12px;font-weight:700}
+.model-note{margin-top:8px;font-size:11px;color:var(--text3);font-weight:600}
 .bars{margin-top:20px;text-align:left}
 .bar-r{display:flex;align-items:center;gap:8px;margin-bottom:7px}
 .bar-l{font-size:10px;color:var(--text3);min-width:90px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
 .bar-t{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
-.bar-f{height:100%;border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1)}
-.bar-v{font-size:10px;font-family:'JetBrains Mono',monospace;min-width:48px;font-weight:600}
+.bar-f{height:100%;border-radius:3px;transition:width .35s cubic-bezier(.4,0,.2,1);opacity:.85}
+.pos-bg{background:var(--green-bar)}.neg-bg{background:var(--red-bar)}
+.bar-v{font-size:10px;font-family:'JetBrains Mono',monospace;min-width:58px;font-weight:600;text-align:right}
 .pos{color:var(--green)}.neg{color:var(--red)}
-.bd-toggle{background:var(--surface);border:1.5px solid var(--border);color:var(--text2);padding:12px;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;font-family:inherit;font-weight:600;width:100%;margin-top:14px;touch-action:manipulation;box-shadow:var(--shadow-sm);transition:all .2s}
+.bd-toggle{background:var(--surface);border:1.5px solid var(--border);color:var(--text2);padding:12px;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;font-weight:600;width:100%;margin-top:14px;touch-action:manipulation;box-shadow:var(--shadow-sm);transition:background .2s,border-color .2s,color .2s}
 .bd-toggle:active{background:var(--primary-light);border-color:var(--primary)}
-.bd-base,.bd-total{display:flex;justify-content:space-between;padding:12px 0;font-weight:700;font-size:13px}
+.bd-card{margin-top:12px}
+.bd-base,.bd-total{display:flex;justify-content:space-between;gap:12px;padding:12px 0;font-weight:700;font-size:13px}
 .bd-base{border-bottom:1.5px solid var(--border);margin-bottom:4px}
 .bd-total{border-top:2px solid var(--primary);margin-top:6px}
-.bd-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--surface2);font-size:12px}
+.bd-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--surface2);font-size:12px}
 .bd-row:last-child{border-bottom:none}
+.bd-row-muted{background:var(--surface2);margin:0 -16px;padding:8px 16px}
 .bd-name{color:var(--text);font-weight:600}
 .bd-det{color:var(--text3);font-size:10px;margin-top:1px;font-weight:500}
 .bd-fac{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;text-align:right;white-space:nowrap}
-.bd-eur{font-size:9px;opacity:.6;margin-left:3px}
+.bd-eur{font-size:9px;opacity:.65;margin-left:3px}
 .nc{font-size:12px;line-height:1.7}
 .nc h3{font-size:14px;margin-bottom:10px;color:var(--primary);font-weight:700;display:flex;align-items:center;gap:6px}
 .arg{padding:8px 0;border-bottom:1px solid var(--surface2)}.arg:last-child{border:none}
@@ -95,476 +128,1049 @@ input[type="range"]{width:100%;margin-top:8px;accent-color:var(--primary);height
 .cn{font-size:11px;color:var(--text3);text-align:center;margin-bottom:14px;font-weight:500}
 .base-badge{margin-top:10px;display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;background:var(--primary-light);font-size:12px;color:var(--primary);font-weight:700;font-family:'JetBrains Mono',monospace}
 .lt-note{margin-top:8px;padding:8px 12px;border-radius:var(--radius-xs);background:var(--yellow-bg);font-size:10px;color:var(--yellow);font-weight:600;text-align:center}
-@media(max-width:380px){.price-main{font-size:32px}.bar-l{min-width:65px;font-size:9px}}
+.price-inline-czk{color:var(--text3);font-size:.8em}
+.mono{font-family:'JetBrains Mono',monospace}
+.primary{color:var(--primary)}
+.empty{padding:20px;text-align:center;color:var(--text3);font-size:12px}
+@media(max-width:380px){.price-main{font-size:32px}.bar-l{min-width:65px;font-size:9px}.bar-v{min-width:48px}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
 </style>
 </head>
 <body>
 <div class="app" id="app"></div>
+
 <script>
-// ══════════════════════════════════════════════════════════════════
-// DATA SOURCES & METHODOLOGY (Q1 2026)
-// SK Flats: NBS Q4 2025 (avg flat 3262 €/m², all 2906),
-//   RÚ Realitný barometer Mar 2026 (3353 €/m² celoslovenský priemer),
-//   ŠÚ SR Q4 2025 (+12.8% YoY realized transactions z katastra),
-//   CBRE BA novostavby Q4 2025 (5302 €/m²), realitymap.sk
-// SK Houses: NBS Q4 2025 (avg house 2139 €/m², +8.1% YoY)
-// SK Land: Mirano Feb 2026, stavbujeme.sk, TRH.sk
-// CZ: ČSÚ realized prices, ČBA monitor Q3-Q4 2025, Deloitte Real Index,
-//   Moneyspot Praha Jan 2026 (156k Kč/m²), nemovitostnikalkulacka.cz
-// CZK/EUR: 25.2 (ČNB ref. rate Q1 2026)
-// Sense-check vs RÚ Cenová 30tka: BA 3829 €/m² starší 3izb (city avg) ✓,
-//   KE 2660 ✓, BB 2520 (rast +28% v 2izb), Lučenec 1093 ✓
-// Update Apr 2026: KE +8.2% QoQ (najrýchlejší rast SR), Prešov líder 2izb,
-//   Trenčín nové +30% YoY, BB +24% YoY (catch-up)
-// ══════════════════════════════════════════════════════════════════
-const R=25.2,toE=k=>Math.round(k/R);
+"use strict";
 
-// ═══ SK FLATS (€/m²) — REALIZED transaction prices Q1 2026 ═══
-// Calibrated to ŠÚ SR kataster data (realized, not asking).
-// Asking prices (NBS, RÚ barometer) are typically 8-12% above realized.
-// BA staršie byty Q3 2025 asking avg: 4141 €/m² → realized ~3700-3800
-// NBS celosk. priemer Q4 2025 (asking): 3262 → realized ~2900-3000
-// "Default" calibration assumes condition = "Kompletná rekonštrukcia" (+6%);
-// adjustments below this baseline produce realistic floor prices.
-const F_SK={
-// BA: realized transaction medians, not new-build asking
-"Bratislava – Staré Mesto":4800,"Bratislava – Ružinov":3700,"Bratislava – Nové Mesto":3800,
-"Bratislava – Karlova Ves":3500,"Bratislava – Petržalka":3200,"Bratislava – Dúbravka":3000,
-"Bratislava – Rača":2950,"Bratislava – Vrakuňa":2700,"Bratislava – Podun. Biskupice":2600,
-"Bratislava – Devínska N. Ves":2800,"Bratislava – Lamač":2900,"Bratislava – Vajnory":2700,
-"Bratislava – Záhorská Bystrica":2600,"Bratislava – Čunovo/Jarovce":2500,
-// KE: NBS Q4 2025 najrýchlejší rast +8.2% QoQ; realized ~2700-3100
-"Košice – centrum (I)":3100,"Košice – západ (II)":2500,"Košice – DH (III)":2150,"Košice – juh (IV)":2350,
-// Krajské mestá: RÚ barometer transaction adj.
-"Žilina":2400,"Banská Bystrica":2350,"Trnava":2450,"Trenčín":2050,
-"Nitra":1950,"Prešov":2150,"Poprad":2100,"Martin":1750,
-"Piešťany":2150,"Senec":2750,"Pezinok":2550,
-"Prievidza":1300,"Zvolen":1700,"Lučenec":1100,"Komárno":1150,
-"Rimavská Sobota":800,"Michalovce":1300,"Humenné":1100,"Bardejov":1150
-};
-// ═══ CZ FLATS (CZK/m² → €) — realized prices Q1 2026 ═══
-// ČSÚ realized Praha 2024: 115889 Kč; +~12% to Q1 2026 = ~130k
-// Asking prices Praha (Moneyspot Jan 2026): 156k → realized ~130-140k
-// Top P1-P2 realized: 180-220k; P3/5/6/7: 120-145k
-const F_CZ={
-"Praha 1":toE(200000),"Praha 2":toE(155000),"Praha 3":toE(130000),"Praha 4":toE(110000),
-"Praha 5":toE(125000),"Praha 6":toE(125000),"Praha 7":toE(140000),"Praha 8":toE(118000),
-"Praha 9":toE(98000),"Praha 10":toE(108000),"Praha – okraj":toE(85000),
-"Brno – centrum":toE(105000),"Brno – širšie centrum":toE(85000),"Brno – sídlisko":toE(72000),
-"Plzeň":toE(82000),"Olomouc":toE(80000),"Hradec Králové":toE(83000),
-"České Budějovice":toE(75000),"Pardubice":toE(75000),"Liberec":toE(70000),
-"Zlín":toE(76000),"Karlovy Vary":toE(60000),"Jihlava":toE(55000),
-"Ostrava – centrum":toE(52000),"Ostrava – sídlisko":toE(36000),
-"Ústí nad Labem":toE(40000),"Most/Litvínov":toE(23000),
-"Kladno":toE(66000),"Mladá Boleslav":toE(56000),"Opava":toE(38000),"Frýdek-Místek":toE(44000)
-};
-// ═══ SK HOUSES (€/m² úžit. plochy) — realized Q1 2026 ═══
-// NBS Q4 2025: SK avg dom 2139 €/m² (asking); realized ~1850-1950
-const H_SK={
-"Bratislava – mesto":2900,"Bratislava – okolie":2200,"Košice – mesto":2000,"Košice – okolie":1450,
-"Žilina":1650,"Banská Bystrica":1450,"Trnava":1700,"Trenčín":1300,
-"Nitra":1300,"Prešov":1300,"Poprad":1450,"Martin":1200,
-"Piešťany":1550,"Senec":2050,"Pezinok":1950,
-"Prievidza":900,"Zvolen":1100,"Lučenec":700,"Komárno":800,
-"Rimavská Sobota":550,"Michalovce":850,"Humenné":700,"Bardejov":700
-};
-// ═══ CZ HOUSES (CZK/m²) — realized Q1 2026 ═══
-// ČSÚ 2024 realized: ČR avg 51867, Praha 106753 → +~10% to Q1 2026
-const H_CZ={
-"Praha – mesto":toE(108000),"Praha – okolie":toE(78000),
-"Brno – mesto":toE(62000),"Brno – okolie":toE(48000),
-"Plzeň":toE(52000),"Olomouc":toE(45000),"Hradec Králové":toE(48000),
-"České Budějovice":toE(45000),"Pardubice":toE(43000),"Liberec":toE(38000),
-"Zlín":toE(42000),"Karlovy Vary":toE(34000),"Jihlava":toE(33000),
-"Ostrava":toE(28000),"Ústí nad Labem":toE(24000),"Most/Litvínov":toE(15000),
-"Kladno":toE(45000),"Mladá Boleslav":toE(38000),"Opava":toE(26000)
-};
-const L_SK={
-"Bratislava – mesto":500,"Bratislava – okolie":220,"Bratislava – širšie okolie":150,
-"Košice – mesto":175,"Košice – okolie":90,"Trnava":120,"Žilina":75,"Banská Bystrica":105,
-"Trenčín":68,"Nitra":62,"Prešov":68,"Poprad":78,"Martin":58,
-"Piešťany":98,"Zvolen":62,"Prievidza":40,"Lučenec":30,"Komárno":34,
-"Rimavská Sobota":18,"Michalovce":40,"Humenné":30,"Bardejov":30,
-"Vidiek – západ":58,"Vidiek – stred":34,"Vidiek – východ":22
-};
-const L_CZ={
-"Praha – mesto":toE(18000),"Praha – okolie":toE(9000),"Brno – mesto":toE(7000),"Brno – okolie":toE(4000),
-"Plzeň":toE(4500),"Olomouc":toE(3800),"Hradec Králové":toE(3800),
-"České Budějovice":toE(3500),"Pardubice":toE(3300),"Liberec":toE(2800),
-"Zlín":toE(3000),"Karlovy Vary":toE(2400),"Jihlava":toE(2200),
-"Ostrava":toE(2000),"Ústí nad Labem":toE(1400),"Most/Litvínov":toE(700),
-"Kladno":toE(4000),"Mladá Boleslav":toE(2800),"Vidiek – Čechy":toE(1600),"Vidiek – Morava":toE(1300)
-};
+/* ══════════════════════════════════════════════════════════════════
+   DATA SOURCES & METHODOLOGY
+   - Values below are embedded model assumptions, not a live data feed.
+   - SK/CZ city tables are normalized to EUR internally.
+   - CZ display also shows CZK using the configured reference exchange rate.
+   - This is not a formal appraisal / znalecký posudok.
+   ══════════════════════════════════════════════════════════════════ */
 
-// ═══ ROOMS — flat layout adjustment (beyond size effect) ═══
-// Reflects layout efficiency & demand: 2-3izb sú najlikvidnejšie podľa NBS
-const ROOMS_FLAT=[
-  {k:"Garsónka (1+kk)",f:-.01,d:"Otvorený priestor, menej súkromia"},
-  {k:"1-izbový",f:.00,d:"Štandardný malý byt"},
-  {k:"2-izbový",f:.02,d:"Najlikvidnejší segment"},
-  {k:"3-izbový",f:.02,d:"Druhý najlikvidnejší segment"},
-  {k:"4-izbový",f:.00,d:"Stredný dopyt, vyššia €/byt"},
-  {k:"5+ izbový",f:-.03,d:"Nižší dopyt, dlhší predaj"}
-];
-const ROOMS_HOUSE=[
-  {k:"2-izbový",f:-.02,d:"Malý dom, menej praktický"},
-  {k:"3-izbový",f:.01,d:"Pre páry / mladú rodinu"},
-  {k:"4-izbový",f:.02,d:"Najlikvidnejší rodinný dom"},
-  {k:"5-izbový",f:.01,d:"Veľká rodina"},
-  {k:"6+ izbový",f:-.02,d:"Užší trh, dlhší predaj"}
-];
-
-// ═══ LAND TYPE — direct multiplier on base ═══
-// Base prices reflect STAVEBNÝ pozemok; iné druhy násobok
-const LAND_TYPE=[
-  {k:"Stavebný pozemok",m:1.00,d:"Plne stavebný (default kalibrácie)"},
-  {k:"Záhrada (s možnosťou stavby)",m:0.55,d:"Záhrada s územným plánom IBV"},
-  {k:"Záhrada (bez stavby)",m:0.30,d:"Bez možnosti výstavby"},
-  {k:"Orná pôda",m:0.10,d:"Poľnohospodárska pôda"},
-  {k:"Trvalý trávny porast",m:0.07,d:"Lúka, pasienok"},
-  {k:"Lesný pozemok",m:0.05,d:"Les / krovinatý porast"},
-  {k:"Vodná plocha / iné",m:0.04,d:"Špecifické využitie"}
-];
-
-const COND_FLAT=[
-  {k:"Pôvodný stav",f:-.12,d:"Bez rekonštrukcie"},
-  {k:"Čiastočná rekonštrukcia",f:-.04,d:"Nové okná, staré jadro"},
-  {k:"Kompletná rekonštrukcia",f:.06,d:"Plne zrekonštruovaný"},
-  {k:"Novostavba / developer",f:.12,d:"Developerský štandard"},
-  {k:"Nadštandard / premium",f:.20,d:"Prémiové materiály"}
-];
-const COND_HOUSE=[
-  {k:"Pôvodný / na zbúranie",f:-.20,d:"Vyžaduje kompletnú rekonštrukciu"},
-  {k:"Čiastočná rekonštrukcia",f:-.08,d:"Časť obnovená"},
-  {k:"Dobrý stav",f:0,d:"Štandardný udržiavaný stav"},
-  {k:"Kompletná rekonštrukcia",f:.08,d:"Plne zrekonštruovaný"},
-  {k:"Novostavba",f:.15,d:"Nový dom"},
-  {k:"Pasívny / nízkoenerget.",f:.25,d:"A0 trieda, certifikovaný"}
-];
-const BTYPE_FLAT=[
-  {k:"Panelový dom",f:-.06,d:"Panelák"},
-  {k:"Tehlový / cihlový",f:.04,d:"Tradičná tehla"},
-  {k:"Zateplený panelák",f:-.02,d:"Po komplexnom zateplení"},
-  {k:"Novostavba",f:.10,d:"Po roku 2010"},
-  {k:"Historická budova",f:.06,d:"Rekonštruovaný historický dom"}
-];
-const BTYPE_HOUSE=[
-  {k:"Panel / montovaný",f:-.08,d:"Montovaná konštrukcia"},
-  {k:"Tehlový / murovaný",f:.04,d:"Klasická murovaná stavba"},
-  {k:"Drevostavba",f:.02,d:"Moderná drevostavba"},
-  {k:"Pasívny / nízkoenerget.",f:.12,d:"A0 / pasívny štandard"},
-  {k:"Zrubový dom",f:.06,d:"Tradičný zrub"}
-];
-const ORI=[
-  {k:"Juh / Juhozápad",f:.03,d:"Najlepšie svetlo"},
-  {k:"Západ",f:.01,d:"Popoludňajšie svetlo"},
-  {k:"Východ",f:0,d:"Ranné svetlo"},
-  {k:"Sever / Severovýchod",f:-.03,d:"Najmenej svetla"},
-  {k:"Rohový (2 strany)",f:.04,d:"Presvetlenie z 2 strán"}
-];
-const FLOOR=[
-  {k:"Prízemie",f:-.06},{k:"1. p.",f:-.02},{k:"2.–3. p.",f:.02},{k:"4.–6. p.",f:.03},
-  {k:"7.–10. p.",f:.01},{k:"11.+ p.",f:-.01},{k:"Posl. bez výťahu",f:-.05},{k:"Posl. s výťahom",f:.02}
-];
-const EXT_FLAT=[
-  {k:"Balkón / Loggia",f:.03},{k:"Terasa",f:.05},{k:"Výťah",f:.02},{k:"Parking / Garáž",f:.05},
-  {k:"Pivnica",f:.01},{k:"Klimatizácia",f:.015},{k:"Zateplenie domu",f:.02},{k:"Tichá lokalita",f:.02},
-  {k:"Rušná cesta / Hluk",f:-.04},{k:"Blízko MHD",f:.02},{k:"Školy v okolí",f:.015},{k:"Park / Zeleň",f:.02},
-  {k:"Obchody / Služby",f:.015},{k:"Problém. lokalita",f:-.08}
-];
-const EXT_HOUSE=[
-  {k:"Garáž",f:.04},{k:"Bazén",f:.03},{k:"Nová strecha / zatepl.",f:.04},{k:"Fotovoltaika / TČ",f:.05},
-  {k:"Pivnica / sklad",f:.01},{k:"Terasa / pergola",f:.02},{k:"Tichá lokalita",f:.03},
-  {k:"Rušná cesta",f:-.04},{k:"Blízko MHD / centrum",f:.03},{k:"Školy v okolí",f:.015},
-  {k:"Obchody / Služby",f:.015},{k:"Odľahlá poloha",f:-.05},{k:"Problém. lokalita",f:-.08}
-];
-const EXT_LAND=[
-  {k:"IS na pozemku",f:.12},{k:"IS na hranici",f:.05},{k:"Bez IS",f:-.10},
-  {k:"Rovinatý terén",f:.04},{k:"Svah / problém. terén",f:-.06},
-  {k:"Prístupová cesta",f:.03},{k:"Bez prístupu",f:-.08},
-  {k:"Stavebné povolenie",f:.08},{k:"Regulačná neistota",f:-.06},
-  {k:"Tichá lokalita",f:.03},{k:"Rušná cesta",f:-.04},{k:"Blízko centra",f:.05},
-  {k:"Odľahlá poloha",f:-.05},{k:"Zástavba okolo",f:.02}
-];
-
-// Size adjustments (per-m² premium/discount based on total area)
-function sizeAdj(m2,t){
-  if(t==="flat"){
-    if(m2<=30)return{f:.08,d:"Garsónka – prémia za m²"};
-    if(m2<=45)return{f:.04,d:"Malý byt – vyššia €/m²"};
-    if(m2<=65)return{f:0,d:"Štandard – neutrálna"};
-    if(m2<=85)return{f:-.02,d:"Väčší byt – mierna zľava"};
-    if(m2<=110)return{f:-.04,d:"Veľký byt – zľava za m²"};
-    return{f:-.06,d:"Nadrozmerný – výrazná zľava"};
+const DATA_VERSION = {
+  period: "Q1 2026",
+  updatedAt: "Apríl 2026",
+  basis: "realizované transakcie",
+  fx: { czkPerEur: 25.2, label: "25,2 Kč/€" },
+  sources: {
+    SK: "NBS Q4 2025 · ŠÚ SR · Realitná únia Mar 2026 · CBRE · realitymap.sk · Mirano",
+    CZ: "ČSÚ · ČNB · ČBA monitor · Deloitte Real Index · hyponamiru.cz"
   }
-  if(t==="house"){
-    if(m2<=80)return{f:.06,d:"Malý dom – prémia za m²"};
-    if(m2<=120)return{f:.02,d:"Stredný dom"};
-    if(m2<=180)return{f:0,d:"Štandard"};
-    if(m2<=250)return{f:-.03,d:"Väčší dom"};
-    return{f:-.06,d:"Veľký dom – zľava za m²"};
+};
+
+const R = DATA_VERSION.fx.czkPerEur;
+const toE = czk => czk / R;
+
+// SK FLATS (€/m²)
+const F_SK = {
+  "Bratislava – Staré Mesto":4800,"Bratislava – Ružinov":3700,"Bratislava – Nové Mesto":3800,
+  "Bratislava – Karlova Ves":3500,"Bratislava – Petržalka":3200,"Bratislava – Dúbravka":3000,
+  "Bratislava – Rača":2950,"Bratislava – Vrakuňa":2700,"Bratislava – Podun. Biskupice":2600,
+  "Bratislava – Devínska N. Ves":2800,"Bratislava – Lamač":2900,"Bratislava – Vajnory":2700,
+  "Bratislava – Záhorská Bystrica":2600,"Bratislava – Čunovo/Jarovce":2500,
+  "Košice – centrum (I)":3100,"Košice – západ (II)":2500,"Košice – DH (III)":2150,"Košice – juh (IV)":2350,
+  "Žilina":2400,"Banská Bystrica":2350,"Trnava":2450,"Trenčín":2050,
+  "Nitra":1950,"Prešov":2150,"Poprad":2100,"Martin":1750,
+  "Piešťany":2150,"Senec":2750,"Pezinok":2550,
+  "Prievidza":1300,"Zvolen":1700,"Lučenec":1100,"Komárno":1150,
+  "Rimavská Sobota":800,"Michalovce":1300,"Humenné":1100,"Bardejov":1150
+};
+
+// CZ FLATS (CZK/m² normalized to EUR)
+const F_CZ = {
+  "Praha 1":toE(200000),"Praha 2":toE(155000),"Praha 3":toE(130000),"Praha 4":toE(110000),
+  "Praha 5":toE(125000),"Praha 6":toE(125000),"Praha 7":toE(140000),"Praha 8":toE(118000),
+  "Praha 9":toE(98000),"Praha 10":toE(108000),"Praha – okraj":toE(85000),
+  "Brno – centrum":toE(105000),"Brno – širšie centrum":toE(85000),"Brno – sídlisko":toE(72000),
+  "Plzeň":toE(82000),"Olomouc":toE(80000),"Hradec Králové":toE(83000),
+  "České Budějovice":toE(75000),"Pardubice":toE(75000),"Liberec":toE(70000),
+  "Zlín":toE(76000),"Karlovy Vary":toE(60000),"Jihlava":toE(55000),
+  "Ostrava – centrum":toE(52000),"Ostrava – sídlisko":toE(36000),
+  "Ústí nad Labem":toE(40000),"Most/Litvínov":toE(23000),
+  "Kladno":toE(66000),"Mladá Boleslav":toE(56000),"Opava":toE(38000),"Frýdek-Místek":toE(44000)
+};
+
+// SK HOUSES (€/m² usable area)
+const H_SK = {
+  "Bratislava – mesto":2900,"Bratislava – okolie":2200,"Košice – mesto":2000,"Košice – okolie":1450,
+  "Žilina":1650,"Banská Bystrica":1450,"Trnava":1700,"Trenčín":1300,
+  "Nitra":1300,"Prešov":1300,"Poprad":1450,"Martin":1200,
+  "Piešťany":1550,"Senec":2050,"Pezinok":1950,
+  "Prievidza":900,"Zvolen":1100,"Lučenec":700,"Komárno":800,
+  "Rimavská Sobota":550,"Michalovce":850,"Humenné":700,"Bardejov":700
+};
+
+// CZ HOUSES (CZK/m² normalized to EUR)
+const H_CZ = {
+  "Praha – mesto":toE(108000),"Praha – okolie":toE(78000),
+  "Brno – mesto":toE(62000),"Brno – okolie":toE(48000),
+  "Plzeň":toE(52000),"Olomouc":toE(45000),"Hradec Králové":toE(48000),
+  "České Budějovice":toE(45000),"Pardubice":toE(43000),"Liberec":toE(38000),
+  "Zlín":toE(42000),"Karlovy Vary":toE(34000),"Jihlava":toE(33000),
+  "Ostrava":toE(28000),"Ústí nad Labem":toE(24000),"Most/Litvínov":toE(15000),
+  "Kladno":toE(45000),"Mladá Boleslav":toE(38000),"Opava":toE(26000)
+};
+
+// SK LAND (€/m² building land baseline)
+const L_SK = {
+  "Bratislava – mesto":500,"Bratislava – okolie":220,"Bratislava – širšie okolie":150,
+  "Košice – mesto":175,"Košice – okolie":90,"Trnava":120,"Žilina":75,"Banská Bystrica":105,
+  "Trenčín":68,"Nitra":62,"Prešov":68,"Poprad":78,"Martin":58,
+  "Piešťany":98,"Zvolen":62,"Prievidza":40,"Lučenec":30,"Komárno":34,
+  "Rimavská Sobota":18,"Michalovce":40,"Humenné":30,"Bardejov":30,
+  "Vidiek – západ":58,"Vidiek – stred":34,"Vidiek – východ":22
+};
+
+// CZ LAND (CZK/m² normalized to EUR; building land baseline)
+const L_CZ = {
+  "Praha – mesto":toE(18000),"Praha – okolie":toE(9000),"Brno – mesto":toE(7000),"Brno – okolie":toE(4000),
+  "Plzeň":toE(4500),"Olomouc":toE(3800),"Hradec Králové":toE(3800),
+  "České Budějovice":toE(3500),"Pardubice":toE(3300),"Liberec":toE(2800),
+  "Zlín":toE(3000),"Karlovy Vary":toE(2400),"Jihlava":toE(2200),
+  "Ostrava":toE(2000),"Ústí nad Labem":toE(1400),"Most/Litvínov":toE(700),
+  "Kladno":toE(4000),"Mladá Boleslav":toE(2800),"Vidiek – Čechy":toE(1600),"Vidiek – Morava":toE(1300)
+};
+
+const ROOMS_FLAT = [
+  {id:"studio",label:"Garsónka (1+kk)",f:-.01,desc:"Otvorený priestor, menej súkromia"},
+  {id:"flat_1",label:"1-izbový",f:0,desc:"Štandardný malý byt"},
+  {id:"flat_2",label:"2-izbový",f:.02,desc:"Najlikvidnejší segment"},
+  {id:"flat_3",label:"3-izbový",f:.02,desc:"Druhý najlikvidnejší segment"},
+  {id:"flat_4",label:"4-izbový",f:0,desc:"Stredný dopyt, vyššia €/byt"},
+  {id:"flat_5_plus",label:"5+ izbový",f:-.03,desc:"Nižší dopyt, dlhší predaj"}
+];
+
+const ROOMS_HOUSE = [
+  {id:"house_2",label:"2-izbový",f:-.02,desc:"Malý dom, menej praktický"},
+  {id:"house_3",label:"3-izbový",f:.01,desc:"Pre páry / mladú rodinu"},
+  {id:"house_4",label:"4-izbový",f:.02,desc:"Najlikvidnejší rodinný dom"},
+  {id:"house_5",label:"5-izbový",f:.01,desc:"Veľká rodina"},
+  {id:"house_6_plus",label:"6+ izbový",f:-.02,desc:"Užší trh, dlhší predaj"}
+];
+
+const LAND_TYPE = [
+  {id:"building",label:"Stavebný pozemok",m:1,desc:"Plne stavebný pozemok"},
+  {id:"garden_buildable",label:"Záhrada (s možnosťou stavby)",m:.55,desc:"Záhrada s územným plánom IBV"},
+  {id:"garden",label:"Záhrada (bez stavby)",m:.30,desc:"Bez možnosti výstavby"},
+  {id:"arable",label:"Orná pôda",m:.10,desc:"Poľnohospodárska pôda"},
+  {id:"grassland",label:"Trvalý trávny porast",m:.07,desc:"Lúka, pasienok"},
+  {id:"forest",label:"Lesný pozemok",m:.05,desc:"Les / krovinatý porast"},
+  {id:"water_other",label:"Vodná plocha / iné",m:.04,desc:"Špecifické využitie"}
+];
+
+const COND_FLAT = [
+  {id:"original",label:"Pôvodný stav",f:-.12,desc:"Bez rekonštrukcie"},
+  {id:"partial",label:"Čiastočná rekonštrukcia",f:-.04,desc:"Nové okná, staré jadro"},
+  {id:"standard",label:"Udržiavaný štandard",f:0,desc:"Priemerný stav pre lokalitu"},
+  {id:"renovated",label:"Kompletná rekonštrukcia",f:.06,desc:"Plne zrekonštruovaný"},
+  {id:"newbuild",label:"Novostavba / developer",f:.12,desc:"Developerský štandard"},
+  {id:"premium",label:"Nadštandard / premium",f:.20,desc:"Prémiové materiály"}
+];
+
+const COND_HOUSE = [
+  {id:"demolition",label:"Pôvodný / na zbúranie",f:-.20,desc:"Vyžaduje kompletnú rekonštrukciu"},
+  {id:"partial",label:"Čiastočná rekonštrukcia",f:-.08,desc:"Časť obnovená"},
+  {id:"good",label:"Dobrý stav",f:0,desc:"Štandardný udržiavaný stav"},
+  {id:"renovated",label:"Kompletná rekonštrukcia",f:.08,desc:"Plne zrekonštruovaný"},
+  {id:"newbuild",label:"Novostavba",f:.15,desc:"Nový dom"},
+  {id:"passive",label:"Pasívny / nízkoenerget.",f:.25,desc:"A0 trieda, certifikovaný"}
+];
+
+const BTYPE_FLAT = [
+  {id:"average_flat",label:"Štandardný bytový dom",f:0,desc:"Neutrálna báza"},
+  {id:"panel",label:"Panelový dom",f:-.06,desc:"Panelák"},
+  {id:"brick",label:"Tehlový / cihlový",f:.04,desc:"Tradičná tehla"},
+  {id:"insulated_panel",label:"Zateplený panelák",f:-.02,desc:"Po komplexnom zateplení"},
+  {id:"newbuild_flat",label:"Novostavba",f:.10,desc:"Po roku 2010"},
+  {id:"historic",label:"Historická budova",f:.06,desc:"Rekonštruovaný historický dom"}
+];
+
+const BTYPE_HOUSE = [
+  {id:"average_house",label:"Štandardný rodinný dom",f:0,desc:"Neutrálna báza"},
+  {id:"prefab",label:"Panel / montovaný",f:-.08,desc:"Montovaná konštrukcia"},
+  {id:"brick_house",label:"Tehlový / murovaný",f:.04,desc:"Klasická murovaná stavba"},
+  {id:"wood",label:"Drevostavba",f:.02,desc:"Moderná drevostavba"},
+  {id:"passive_house",label:"Pasívny / nízkoenerget.",f:.12,desc:"A0 / pasívny štandard"},
+  {id:"log",label:"Zrubový dom",f:.06,desc:"Tradičný zrub"}
+];
+
+const ORI = [
+  {id:"south_sw",label:"Juh / Juhozápad",f:.03,desc:"Najlepšie svetlo"},
+  {id:"west",label:"Západ",f:.01,desc:"Popoludňajšie svetlo"},
+  {id:"east",label:"Východ",f:0,desc:"Ranné svetlo"},
+  {id:"north_ne",label:"Sever / Severovýchod",f:-.03,desc:"Najmenej svetla"},
+  {id:"corner",label:"Rohový (2 strany)",f:.04,desc:"Presvetlenie z 2 strán"}
+];
+
+const FLOOR = [
+  {id:"ground",label:"Prízemie",f:-.06,desc:"Prízemie"},
+  {id:"floor_1",label:"1. p.",f:-.02,desc:"Prvé poschodie"},
+  {id:"floor_2_3",label:"2.–3. p.",f:.02,desc:"Vyhľadávané nižšie poschodie"},
+  {id:"floor_4_6",label:"4.–6. p.",f:.03,desc:"Vyššie poschodie s výhľadom"},
+  {id:"floor_7_10",label:"7.–10. p.",f:.01,desc:"Vyššie podlažie"},
+  {id:"floor_11_plus",label:"11.+ p.",f:-.01,desc:"Vysoké podlažie"},
+  {id:"top_no_elevator",label:"Posl. bez výťahu",f:-.05,desc:"Posledné poschodie bez výťahu"},
+  {id:"top_elevator",label:"Posl. s výťahom",f:.02,desc:"Posledné poschodie s výťahom"}
+];
+
+const EXT_FLAT = [
+  {id:"balcony",label:"Balkón / Loggia",kind:"pct",f:.03},
+  {id:"terrace",label:"Terasa",kind:"pct",f:.05},
+  {id:"elevator",label:"Výťah",kind:"pct",f:.02},
+  {id:"parking",label:"Parking / Garáž",kind:"abs",eur:{SK:22000,CZ:toE(600000)}},
+  {id:"cellar",label:"Pivnica",kind:"abs",eur:{SK:4000,CZ:toE(100000)}},
+  {id:"ac",label:"Klimatizácia",kind:"abs",eur:{SK:2500,CZ:toE(60000)}},
+  {id:"insulation",label:"Zateplenie domu",kind:"pct",f:.02},
+  {id:"quiet",label:"Tichá lokalita",kind:"pct",f:.02},
+  {id:"noise",label:"Rušná cesta / Hluk",kind:"pct",f:-.04},
+  {id:"public_transport",label:"Blízko MHD",kind:"pct",f:.02},
+  {id:"schools",label:"Školy v okolí",kind:"pct",f:.015},
+  {id:"park",label:"Park / Zeleň",kind:"pct",f:.02},
+  {id:"shops",label:"Obchody / Služby",kind:"pct",f:.015},
+  {id:"problem_area",label:"Problém. lokalita",kind:"pct",f:-.08}
+];
+
+const EXT_HOUSE = [
+  {id:"garage",label:"Garáž",kind:"abs",eur:{SK:20000,CZ:toE(500000)}},
+  {id:"pool",label:"Bazén",kind:"abs",eur:{SK:18000,CZ:toE(450000)}},
+  {id:"roof_insulation",label:"Nová strecha / zatepl.",kind:"pct",f:.04},
+  {id:"solar_heatpump",label:"Fotovoltaika / TČ",kind:"abs",eur:{SK:15000,CZ:toE(380000)}},
+  {id:"storage",label:"Pivnica / sklad",kind:"abs",eur:{SK:5000,CZ:toE(120000)}},
+  {id:"terrace_pergola",label:"Terasa / pergola",kind:"pct",f:.02},
+  {id:"quiet",label:"Tichá lokalita",kind:"pct",f:.03},
+  {id:"noise",label:"Rušná cesta",kind:"pct",f:-.04},
+  {id:"public_transport_center",label:"Blízko MHD / centrum",kind:"pct",f:.03},
+  {id:"schools",label:"Školy v okolí",kind:"pct",f:.015},
+  {id:"shops",label:"Obchody / Služby",kind:"pct",f:.015},
+  {id:"remote",label:"Odľahlá poloha",kind:"pct",f:-.05},
+  {id:"problem_area",label:"Problém. lokalita",kind:"pct",f:-.08}
+];
+
+const EXT_LAND = [
+  {id:"utilities_on_plot",label:"IS na pozemku",kind:"pct",f:.12},
+  {id:"utilities_border",label:"IS na hranici",kind:"pct",f:.05},
+  {id:"no_utilities",label:"Bez IS",kind:"pct",f:-.10},
+  {id:"flat_terrain",label:"Rovinatý terén",kind:"pct",f:.04},
+  {id:"slope",label:"Svah / problém. terén",kind:"pct",f:-.06},
+  {id:"access_road",label:"Prístupová cesta",kind:"pct",f:.03},
+  {id:"no_access",label:"Bez prístupu",kind:"pct",f:-.08},
+  {id:"building_permit",label:"Stavebné povolenie",kind:"pct",f:.08},
+  {id:"planning_uncertainty",label:"Regulačná neistota",kind:"pct",f:-.06},
+  {id:"quiet",label:"Tichá lokalita",kind:"pct",f:.03},
+  {id:"noise",label:"Rušná cesta",kind:"pct",f:-.04},
+  {id:"near_center",label:"Blízko centra",kind:"pct",f:.05},
+  {id:"remote",label:"Odľahlá poloha",kind:"pct",f:-.05},
+  {id:"surrounding_buildings",label:"Zástavba okolo",kind:"pct",f:.02}
+];
+
+const DEFAULTS = {
+  flat: {
+    m2:68,rooms:"flat_2",cond:"standard",btype:"average_flat",ori:"east",floor:"floor_2_3",
+    plot:600,landType:"building",extras:[]
+  },
+  house: {
+    m2:140,rooms:"house_4",cond:"good",btype:"average_house",ori:"east",floor:"floor_2_3",
+    plot:600,landType:"building",extras:[]
+  },
+  land: {
+    m2:800,rooms:"flat_2",cond:"standard",btype:"average_flat",ori:"east",floor:"floor_2_3",
+    plot:600,landType:"building",extras:[]
   }
-  if(m2<=300)return{f:.10,d:"Malý pozemok – prémia"};
-  if(m2<=600)return{f:.04,d:"Stredný pozemok"};
-  if(m2<=1000)return{f:0,d:"Štandard"};
-  if(m2<=2000)return{f:-.04,d:"Väčší pozemok"};
-  return{f:-.08,d:"Veľký pozemok – zľava"};
+};
+
+const STORE_KEY = "ocenovanie-sk-cz-v2";
+
+const nfSK = new Intl.NumberFormat("sk-SK", { maximumFractionDigits: 0 });
+const nfCZ = new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 0 });
+
+const app = document.getElementById("app");
+
+let S = loadInitialState();
+let saveTimer = null;
+
+function fmt(n){ return nfSK.format(Math.round(Number.isFinite(n) ? n : 0)); }
+function fmtK(n){ return nfCZ.format(Math.round(Number.isFinite(n) ? n : 0)); }
+function pct(f){ return (f > 0 ? "+" : "") + (f * 100).toFixed(1) + "%"; }
+function esc(value){
+  return String(value).replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[ch]));
+}
+function clamp(value,min,max){ return Math.max(min,Math.min(max,value)); }
+function clampNumber(value,min,max,fallback){
+  const n = Number(value);
+  return Number.isFinite(n) ? clamp(n,min,max) : fallback;
+}
+function byId(list,id){ return list.find(item => item.id === id) || list[0]; }
+function existsId(list,id){ return list.some(item => item.id === id); }
+function amountForCountry(option){ return typeof option.eur === "object" ? option.eur[S.co] : option.eur; }
+
+function loadInitialState(){
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(STORE_KEY) || "null"); } catch {}
+  const pt = saved && DEFAULTS[saved.pt] ? saved.pt : "flat";
+  const base = { co:"SK", pt, city:"", bd:false, ...DEFAULTS[pt] };
+  const state = saved && typeof saved === "object" ? { ...base, ...saved, pt } : base;
+  return normalizeState(state);
+}
+function saveStateSoon(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveState,120);
+}
+function saveState(){
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch {}
 }
 
-// Plot size adjustment for HOUSES (separate from house living area)
+function normalizeState(state = S){
+  if (!["SK","CZ"].includes(state.co)) state.co = "SK";
+  if (!DEFAULTS[state.pt]) state.pt = "flat";
+
+  const [minM2,maxM2] = mRange(state.pt);
+  state.m2 = clampNumber(state.m2,minM2,maxM2,DEFAULTS[state.pt].m2);
+  state.plot = clampNumber(state.plot,100,5000,DEFAULTS[state.pt].plot || 600);
+
+  const rooms = state.pt === "house" ? ROOMS_HOUSE : ROOMS_FLAT;
+  if (!existsId(rooms,state.rooms)) state.rooms = DEFAULTS[state.pt].rooms;
+
+  const conds = state.pt === "house" ? COND_HOUSE : COND_FLAT;
+  if (!existsId(conds,state.cond)) state.cond = DEFAULTS[state.pt].cond;
+
+  const btypes = state.pt === "house" ? BTYPE_HOUSE : BTYPE_FLAT;
+  if (!existsId(btypes,state.btype)) state.btype = DEFAULTS[state.pt].btype;
+
+  if (!existsId(ORI,state.ori)) state.ori = DEFAULTS[state.pt].ori;
+  if (!existsId(FLOOR,state.floor)) state.floor = DEFAULTS[state.pt].floor;
+  if (!existsId(LAND_TYPE,state.landType)) state.landType = DEFAULTS[state.pt].landType;
+
+  const extIds = new Set(getExtFor(state.pt).map(x => x.id));
+  state.extras = Array.isArray(state.extras) ? state.extras.filter(id => extIds.has(id)) : [];
+
+  const db = getDBFor(state.co,state.pt);
+  if (!Object.prototype.hasOwnProperty.call(db,state.city)) state.city = Object.keys(db)[0] || "";
+
+  return state;
+}
+
+function getDBFor(co,pt){
+  if (pt === "flat") return co === "SK" ? F_SK : F_CZ;
+  if (pt === "house") return co === "SK" ? H_SK : H_CZ;
+  return co === "SK" ? L_SK : L_CZ;
+}
+function getDB(){ return getDBFor(S.co,S.pt); }
+function getCond(){ return S.pt === "house" ? COND_HOUSE : COND_FLAT; }
+function getBtype(){ return S.pt === "house" ? BTYPE_HOUSE : BTYPE_FLAT; }
+function getRooms(){ return S.pt === "house" ? ROOMS_HOUSE : ROOMS_FLAT; }
+function getExtFor(pt){ return pt === "flat" ? EXT_FLAT : pt === "house" ? EXT_HOUSE : EXT_LAND; }
+function getExt(){ return getExtFor(S.pt); }
+function needFloor(){ return S.pt === "flat"; }
+function needOri(){ return S.pt === "flat"; }
+function needCond(){ return S.pt !== "land"; }
+function needBtype(){ return S.pt !== "land"; }
+function needRooms(){ return S.pt !== "land"; }
+function needPlot(){ return S.pt === "house"; }
+function needLandType(){ return S.pt === "land"; }
+
+function mRange(pt = S.pt){
+  if (pt === "flat") return [15,200];
+  if (pt === "house") return [40,500];
+  return [100,5000];
+}
+
+function sizeAdj(m2,pt){
+  if (pt === "flat") {
+    if (m2 <= 30) return {f:.08,desc:"Garsónka – prémia za m²"};
+    if (m2 <= 45) return {f:.04,desc:"Malý byt – vyššia €/m²"};
+    if (m2 <= 65) return {f:0,desc:"Štandard – neutrálna"};
+    if (m2 <= 85) return {f:-.02,desc:"Väčší byt – mierna zľava"};
+    if (m2 <= 110) return {f:-.04,desc:"Veľký byt – zľava za m²"};
+    return {f:-.06,desc:"Nadrozmerný – výrazná zľava"};
+  }
+  if (pt === "house") {
+    if (m2 <= 80) return {f:.06,desc:"Malý dom – prémia za m²"};
+    if (m2 <= 120) return {f:.02,desc:"Stredný dom"};
+    if (m2 <= 180) return {f:0,desc:"Štandard"};
+    if (m2 <= 250) return {f:-.03,desc:"Väčší dom"};
+    return {f:-.06,desc:"Veľký dom – zľava za m²"};
+  }
+  if (m2 <= 300) return {f:.10,desc:"Malý pozemok – prémia"};
+  if (m2 <= 600) return {f:.04,desc:"Stredný pozemok"};
+  if (m2 <= 1000) return {f:0,desc:"Štandard"};
+  if (m2 <= 2000) return {f:-.04,desc:"Väčší pozemok"};
+  return {f:-.08,desc:"Veľký pozemok – zľava"};
+}
+
 function plotAdj(plot){
-  if(plot<300)return{f:-.04,d:"Malý pozemok – obmedzené súkromie"};
-  if(plot<500)return{f:-.01,d:"Menší pozemok"};
-  if(plot<800)return{f:0,d:"Štandardný pozemok"};
-  if(plot<1200)return{f:.02,d:"Veľký pozemok – komfort"};
-  if(plot<2000)return{f:.03,d:"Veľmi veľký pozemok"};
-  return{f:.04,d:"Rezidenčný areál"};
-}
-
-const fmt=n=>new Intl.NumberFormat("sk-SK").format(Math.round(n));
-const fmtK=n=>new Intl.NumberFormat("cs-CZ").format(Math.round(n));
-const pct=f=>(f>0?"+":"")+(f*100).toFixed(1)+"%";
-
-let S={
-  co:"SK",pt:"flat",city:"",
-  m2:68,rooms:2,plot:600,landType:0,
-  cond:2,btype:0,ori:0,floor:2,
-  extras:[],bd:false
-};
-
-function getDB(){
-  if(S.pt==="flat")return S.co==="SK"?F_SK:F_CZ;
-  if(S.pt==="house")return S.co==="SK"?H_SK:H_CZ;
-  return S.co==="SK"?L_SK:L_CZ;
-}
-function getCond(){return S.pt==="house"?COND_HOUSE:COND_FLAT;}
-function getBtype(){return S.pt==="house"?BTYPE_HOUSE:BTYPE_FLAT;}
-function getRooms(){return S.pt==="flat"?ROOMS_FLAT:ROOMS_HOUSE;}
-function getExt(){return S.pt==="flat"?EXT_FLAT:S.pt==="house"?EXT_HOUSE:EXT_LAND;}
-function needFloor(){return S.pt==="flat";}
-function needOri(){return S.pt==="flat";}
-function needCond(){return S.pt!=="land";}
-function needBtype(){return S.pt!=="land";}
-function needRooms(){return S.pt!=="land";}
-function needPlot(){return S.pt==="house";}
-function needLandType(){return S.pt==="land";}
-
-function init(){
-  const db=getDB();S.city=Object.keys(db)[0]||"";
-  if(S.pt==="flat"){S.m2=68;S.rooms=2;S.extras=[0,2,9];S.cond=2;S.btype=0;S.floor=2;}
-  else if(S.pt==="house"){S.m2=140;S.rooms=2;S.plot=600;S.extras=[0];S.cond=2;S.btype=1;}
-  else{S.m2=600;S.landType=0;S.extras=[0];}
-  S.bd=false;
-}
-init();
-
-function calc(){
-  const db=getDB();const baseRaw=db[S.city];if(baseRaw==null)return null;
-  // Apply land type multiplier as adjustment to base
-  let base=baseRaw;let landMultDesc=null;
-  if(S.pt==="land"){
-    const lt=LAND_TYPE[S.landType];base=baseRaw*lt.m;
-    if(lt.m!==1)landMultDesc={n:"Druh pozemku",d:lt.k,f:(lt.m-1),isMult:true};
-  }
-  let tf=0;const adjs=[];
-
-  if(needCond()){const c=getCond()[S.cond]||getCond()[0];adjs.push({n:"Stav",d:c.k,f:c.f});tf+=c.f;}
-  if(needBtype()){const b=getBtype()[S.btype]||getBtype()[0];adjs.push({n:"Typ stavby",d:b.k,f:b.f});tf+=b.f;}
-  if(needRooms()){const r=getRooms()[S.rooms]||getRooms()[0];adjs.push({n:"Počet izieb",d:r.k,f:r.f});tf+=r.f;}
-  if(needOri()){const o=ORI[S.ori];adjs.push({n:"Orientácia",d:o.k,f:o.f});tf+=o.f;}
-  if(needFloor()){const fl=FLOOR[S.floor];adjs.push({n:"Poschodie",d:fl.k,f:fl.f});tf+=fl.f;}
-
-  const sz=sizeAdj(S.m2,S.pt);adjs.push({n:"Veľkosť",d:S.m2+" m²",f:sz.f});tf+=sz.f;
-
-  if(needPlot()){const pl=plotAdj(S.plot);adjs.push({n:"Pozemok",d:S.plot+" m²",f:pl.f});tf+=pl.f;}
-
-  const exts=getExt();S.extras.forEach(i=>{
-    if(exts[i]){adjs.push({n:exts[i].k,d:"",f:exts[i].f});tf+=exts[i].f;}
-  });
-
-  const pm=base*(1+tf);const tot=pm*S.m2;
-  const sp=S.pt==="land"?.12:.08;
-  return{baseRaw,base,adjs,tf,pm,tot,lo:tot*(1-sp),hi:tot*(1+sp),landMultDesc};
+  if (plot < 300) return {f:-.04,desc:"Malý pozemok – obmedzené súkromie"};
+  if (plot < 500) return {f:-.01,desc:"Menší pozemok"};
+  if (plot < 800) return {f:0,desc:"Štandardný pozemok"};
+  if (plot < 1200) return {f:.02,desc:"Veľký pozemok – komfort"};
+  if (plot < 2000) return {f:.03,desc:"Veľmi veľký pozemok"};
+  return {f:.04,desc:"Rezidenčný areál"};
 }
 
 function priceStr(eur,withCzk){
-  if(S.co==="CZ"&&withCzk)return`${fmt(eur)} € <span style="color:var(--text3);font-size:.8em">(${fmtK(eur*R)} Kč)</span>`;
-  return`${fmt(eur)} €`;
+  const base = `${fmt(eur)} €`;
+  if (S.co === "CZ" && withCzk) {
+    return `${base} <span class="price-inline-czk">(${fmtK(eur * R)} Kč)</span>`;
+  }
+  return base;
 }
 function priceStrPlain(eur){
-  return S.co==="CZ"?`${fmt(eur)} € / ${fmtK(eur*R)} Kč`:`${fmt(eur)} €`;
+  return S.co === "CZ" ? `${fmt(eur)} € / ${fmtK(eur * R)} Kč` : `${fmt(eur)} €`;
 }
 
-function getGroups(){
-  const db=getDB();const k=Object.keys(db);
-  if(S.co==="SK"){
-    const ba=k.filter(x=>x.startsWith("Bratislava"));
-    const ke=k.filter(x=>x.startsWith("Košice"));
-    const o=k.filter(x=>!x.startsWith("Bratislava")&&!x.startsWith("Košice"));
-    const g=[];if(ba.length)g.push({l:"Bratislava",i:ba});if(ke.length)g.push({l:"Košice",i:ke});if(o.length)g.push({l:"Ostatné",i:o});return g;
+function addOption(adjs,pctAdjs,absAdjs,name,opt,detail){
+  if (!opt) return;
+  const label = detail || opt.label || "";
+  if (opt.kind === "abs") {
+    const eur = amountForCountry(opt);
+    const row = { n:name, d:label, type:"abs", eur };
+    adjs.push(row); absAdjs.push(row);
+    return;
   }
-  const pr=k.filter(x=>x.startsWith("Praha"));const br=k.filter(x=>x.startsWith("Brno"));
-  const o=k.filter(x=>!x.startsWith("Praha")&&!x.startsWith("Brno"));
-  const g=[];if(pr.length)g.push({l:"Praha",i:pr});if(br.length)g.push({l:"Brno",i:br});if(o.length)g.push({l:"Ostatné",i:o});return g;
+  const row = { n:name, d:label, type:"pct", f:opt.f || 0 };
+  adjs.push(row); pctAdjs.push(row);
+}
+function addSkipped(adjs,name,detail){
+  adjs.push({ n:name, d:detail, type:"skipped", f:0 });
+}
+
+function shouldSkipBtype(cond,btype){
+  return (
+    (cond.id === "newbuild" && (btype.id === "newbuild_flat" || btype.id === "passive_house")) ||
+    (cond.id === "passive" && btype.id === "passive_house")
+  );
+}
+function shouldSkipExtra(extra,cond,btype){
+  if (extra.id === "insulation" && btype.id === "insulated_panel") return "Zateplenie je už zahrnuté v type stavby.";
+  if (extra.id === "roof_insulation" && (cond.id === "renovated" || cond.id === "newbuild" || cond.id === "passive")) return "Stav rekonštrukcie už zahŕňa časť technického zhodnotenia.";
+  if (extra.id === "solar_heatpump" && cond.id === "passive") return "Energetický štandard je už zahrnutý v stave domu.";
+  return "";
+}
+
+function calc(){
+  const db = getDB();
+  const baseRaw = db[S.city];
+  if (!Number.isFinite(baseRaw)) return null;
+
+  let base = baseRaw;
+  let landType = null;
+  const adjs = [];
+  const pctAdjs = [];
+  const absAdjs = [];
+
+  if (S.pt === "land") {
+    landType = byId(LAND_TYPE,S.landType);
+    base = baseRaw * landType.m;
+  }
+
+  if (needCond()) {
+    const cond = byId(getCond(),S.cond);
+    addOption(adjs,pctAdjs,absAdjs,"Stav",cond,`${cond.label} · ${cond.desc}`);
+  }
+
+  if (needBtype()) {
+    const cond = byId(getCond(),S.cond);
+    const btype = byId(getBtype(),S.btype);
+    if (shouldSkipBtype(cond,btype)) {
+      addSkipped(adjs,"Typ stavby",`${btype.label} · nezapočítané duplicitne, už zahrnuté v stave`);
+    } else {
+      addOption(adjs,pctAdjs,absAdjs,"Typ stavby",btype,`${btype.label} · ${btype.desc}`);
+    }
+  }
+
+  if (needRooms()) {
+    const rooms = byId(getRooms(),S.rooms);
+    addOption(adjs,pctAdjs,absAdjs,"Počet izieb",rooms,`${rooms.label} · ${rooms.desc}`);
+  }
+
+  if (needOri()) {
+    const ori = byId(ORI,S.ori);
+    addOption(adjs,pctAdjs,absAdjs,"Orientácia",ori,`${ori.label} · ${ori.desc}`);
+  }
+
+  if (needFloor()) {
+    const floor = byId(FLOOR,S.floor);
+    addOption(adjs,pctAdjs,absAdjs,"Poschodie",floor,`${floor.label} · ${floor.desc}`);
+  }
+
+  const sz = sizeAdj(S.m2,S.pt);
+  const sizeRow = { n:"Veľkosť", d:`${fmt(S.m2)} m² · ${sz.desc}`, type:"pct", f:sz.f };
+  adjs.push(sizeRow); pctAdjs.push(sizeRow);
+
+  if (needPlot()) {
+    const pl = plotAdj(S.plot);
+    const plotRow = { n:"Pozemok", d:`${fmt(S.plot)} m² · ${pl.desc}`, type:"pct", f:pl.f };
+    adjs.push(plotRow); pctAdjs.push(plotRow);
+  }
+
+  const selectedExtras = new Set(S.extras);
+  const cond = needCond() ? byId(getCond(),S.cond) : null;
+  const btype = needBtype() ? byId(getBtype(),S.btype) : null;
+
+  getExt().forEach(extra => {
+    if (!selectedExtras.has(extra.id)) return;
+    const skipReason = shouldSkipExtra(extra,cond || {},btype || {});
+    if (skipReason) {
+      addSkipped(adjs,extra.label,skipReason);
+    } else {
+      addOption(adjs,pctAdjs,absAdjs,extra.label,extra,extra.label);
+    }
+  });
+
+  const rawPctFactor = pctAdjs.reduce((acc,adj) => acc * (1 + (adj.f || 0)), 1);
+  const pctFactor = clamp(rawPctFactor,.35,1.75);
+  const wasClamped = pctFactor !== rawPctFactor;
+  const absTotal = absAdjs.reduce((sum,adj) => sum + adj.eur, 0);
+
+  const subtotal = base * pctFactor * S.m2;
+  const tot = Math.max(0, subtotal + absTotal);
+  const pm = S.m2 > 0 ? tot / S.m2 : 0;
+  const totalFactorFromRaw = baseRaw > 0 ? (pm / baseRaw) - 1 : 0;
+  const modelFactorFromAdjustedBase = base > 0 ? (pm / base) - 1 : 0;
+  const spread = S.pt === "land" ? .12 : .08;
+
+  return {
+    baseRaw,base,landType,adjs,pctAdjs,absAdjs,rawPctFactor,pctFactor,wasClamped,absTotal,
+    subtotal,pm,tot,lo:tot * (1 - spread),hi:tot * (1 + spread),
+    totalFactorFromRaw,modelFactorFromAdjustedBase,spread
+  };
+}
+
+function adjEquivalentPct(adj,v){
+  if (!adj || adj.type === "skipped") return 0;
+  if (adj.type === "abs") return v.base > 0 && S.m2 > 0 ? (adj.eur / S.m2) / v.base : 0;
+  return adj.f || 0;
+}
+function adjMoneyEffect(adj,v){
+  if (!adj || adj.type === "skipped") return 0;
+  if (adj.type === "abs") return adj.eur;
+  return v.base * (adj.f || 0) * S.m2;
+}
+function formatAdjValue(adj,v){
+  if (adj.type === "skipped") return "0.0%";
+  if (adj.type === "abs") return `${adj.eur > 0 ? "+" : ""}${fmt(adj.eur)} €`;
+  return pct(adj.f || 0);
 }
 
 function genArgs(v){
-  if(!v)return[];const a=[];const neg=v.adjs.filter(x=>x.f<0);
-  if(neg.length){
-    const tn=neg.reduce((s,x)=>s+x.f,0);
-    a.push({l:"Zrážky z trhovej ceny",t:`${neg.map(x=>x.n).join(", ")} → −${(Math.abs(tn)*100).toFixed(1)}% (~${priceStrPlain(v.base*Math.abs(tn)*S.m2)})`});
+  if (!v) return [];
+  const args = [];
+  const negative = v.adjs.filter(adj => adjEquivalentPct(adj,v) < 0);
+  if (negative.length) {
+    const negPct = negative.reduce((sum,adj) => sum + adjEquivalentPct(adj,v),0);
+    const negMoney = Math.abs(negative.reduce((sum,adj) => sum + adjMoneyEffect(adj,v),0));
+    args.push({
+      label:"Zrážky z trhovej ceny",
+      text:`${negative.map(x => x.n).join(", ")} → približne −${(Math.abs(negPct)*100).toFixed(1)}% (~${priceStrPlain(negMoney)})`
+    });
   }
-  if(S.pt==="land"&&S.landType>0){
-    a.push({l:"Druh pozemku",t:`Pozemok je klasifikovaný ako ${LAND_TYPE[S.landType].k.toLowerCase()}, čo znamená výrazne nižšiu hodnotu oproti stavebnému (${(LAND_TYPE[S.landType].m*100).toFixed(0)}% z bázy stavebného pozemku v lokalite).`});
+
+  if (S.pt === "land" && v.landType && v.landType.id !== "building") {
+    args.push({
+      label:"Druh pozemku",
+      text:`Pozemok je klasifikovaný ako ${v.landType.label.toLowerCase()}, preto model používa ${(v.landType.m*100).toFixed(0)}% z bázy stavebného pozemku v lokalite.`
+    });
   }
-  if(S.pt==="flat"&&(S.rooms===0||S.rooms>=4)){
-    a.push({l:"Likvidita podľa počtu izieb",t:S.rooms===0?"Garsónky majú vysoký dopyt na investičné účely, ale užší segment kupujúcich.":"Väčšie byty (4+ izb.) majú menej kupujúcich a dlhšie sa predávajú. Argument pre nižšiu cenu."});
+
+  if (S.pt === "flat" && (S.rooms === "studio" || S.rooms === "flat_4" || S.rooms === "flat_5_plus")) {
+    args.push({
+      label:"Likvidita podľa počtu izieb",
+      text:S.rooms === "studio"
+        ? "Garsónky majú vysoký dopyt na investičné účely, ale užší segment kupujúcich."
+        : "Väčšie byty majú užší okruh kupujúcich a typicky dlhší predaj."
+    });
   }
-  if(S.m2>(S.pt==="flat"?85:S.pt==="house"?250:2000)){
-    a.push({l:"Veľká výmera",t:"Väčšie nehnuteľnosti = dlhší predaj = silnejšia pozícia kupujúceho."});
+
+  if (S.m2 > (S.pt === "flat" ? 85 : S.pt === "house" ? 250 : 2000)) {
+    args.push({
+      label:"Veľká výmera",
+      text:"Väčšie nehnuteľnosti sa zvyčajne predávajú dlhšie, čo posilňuje vyjednávaciu pozíciu kupujúceho."
+    });
   }
-  if(v.tf<0){
-    a.push({l:"Celková korekcia",t:`Parametre znižujú hodnotu o ${(Math.abs(v.tf)*100).toFixed(1)}% oproti priemeru lokality.`});
+
+  if (v.totalFactorFromRaw < 0) {
+    args.push({
+      label:"Celková korekcia",
+      text:`Modelované parametre znižujú cenu o ${(Math.abs(v.totalFactorFromRaw)*100).toFixed(1)}% oproti surovej báze lokality.`
+    });
   }
-  const sp=S.pt==="land"?12:8;
-  a.push({l:"Vyjednávacie rozpätie",t:`${priceStrPlain(v.lo)} – ${priceStrPlain(v.hi)} (±${sp}%)`});
-  if(S.pt==="land"){
-    a.push({l:"Pozemok – due diligence",t:"Overte: ÚP, IS, vecné bremená, ochranné pásma, prístup, BPEJ pri ornej pôde. Tieto faktory menia cenu o desiatky %."});
+
+  args.push({
+    label:"Vyjednávacie rozpätie",
+    text:`${priceStrPlain(v.lo)} – ${priceStrPlain(v.hi)} (±${(v.spread*100).toFixed(0)}%)`
+  });
+
+  if (S.pt === "land") {
+    args.push({
+      label:"Pozemok – due diligence",
+      text:"Overte územný plán, IS, vecné bremená, ochranné pásma, prístup a BPEJ pri poľnohospodárskej pôde."
+    });
   }
-  if(S.pt==="house"){
-    a.push({l:"Dom – kľúčové overenia",t:"Energetický certifikát, statika, vlhkosť, stav strechy a inžinierskych sietí. Skryté chyby = výrazná páka pre zníženie ceny."});
+
+  if (S.pt === "house") {
+    args.push({
+      label:"Dom – kľúčové overenia",
+      text:"Overte energetický certifikát, statiku, vlhkosť, strechu, rozvody a stav inžinierskych sietí."
+    });
   }
-  return a;
+
+  return args;
 }
 
-function ptL(){return S.pt==="flat"?"Byt":S.pt==="house"?"Dom":"Pozemok";}
-function m2L(){return S.pt==="flat"?"Výmera bytu (m²)":S.pt==="house"?"Úžitková plocha (m²)":"Výmera pozemku (m²)";}
-function mR(){return S.pt==="flat"?[15,200]:S.pt==="house"?[40,500]:[100,5000];}
+function ptL(){ return S.pt === "flat" ? "Byt" : S.pt === "house" ? "Dom" : "Pozemok"; }
+function m2L(){ return S.pt === "flat" ? "Výmera bytu (m²)" : S.pt === "house" ? "Úžitková plocha (m²)" : "Výmera pozemku (m²)"; }
 
-function render(){
-  const v=calc();const db=getDB();const baseRaw=db[S.city];const gs=getGroups();const args=genArgs(v);
-  const isCZ=S.co==="CZ";const conds=getCond();const btypes=getBtype();const rooms=getRooms();const exts=getExt();
-  const[mMin,mMax]=mR();
+function getGroups(){
+  const db = getDB();
+  const keys = Object.keys(db);
+  if (S.co === "SK") {
+    const ba = keys.filter(x => x.startsWith("Bratislava"));
+    const ke = keys.filter(x => x.startsWith("Košice"));
+    const other = keys.filter(x => !x.startsWith("Bratislava") && !x.startsWith("Košice"));
+    return [
+      ba.length && { label:"Bratislava", items:ba },
+      ke.length && { label:"Košice", items:ke },
+      other.length && { label:"Ostatné", items:other }
+    ].filter(Boolean);
+  }
+  const pr = keys.filter(x => x.startsWith("Praha"));
+  const br = keys.filter(x => x.startsWith("Brno"));
+  const other = keys.filter(x => !x.startsWith("Praha") && !x.startsWith("Brno"));
+  return [
+    pr.length && { label:"Praha", items:pr },
+    br.length && { label:"Brno", items:br },
+    other.length && { label:"Ostatné", items:other }
+  ].filter(Boolean);
+}
 
-  document.getElementById("app").innerHTML=`
-    <div class="hdr"><h1>Oceňovanie nehnuteľností</h1><p>Slovensko & Česko · Q1 2026</p></div>
+function renderSwitch(label,value,current,dataName){
+  const isOn = value === current;
+  return `<button type="button" class="sw-btn ${isOn ? "on" : ""}" data-${dataName}="${esc(value)}" aria-pressed="${isOn}">${label}</button>`;
+}
+function renderSelectOptions(list,selected){
+  return list.map(item => `<option value="${esc(item.id)}" ${item.id === selected ? "selected" : ""}>${esc(item.label)}</option>`).join("");
+}
+function renderCityOptions(groups){
+  return groups.map(group => {
+    const options = group.items.map(city => `<option value="${esc(city)}" ${city === S.city ? "selected" : ""}>${esc(city)}</option>`).join("");
+    return `<optgroup label="${esc(group.label)}">${options}</optgroup>`;
+  }).join("");
+}
+function renderField(label,id,html){
+  return `<div><label for="${esc(id)}">${esc(label)}</label>${html}</div>`;
+}
 
-    <div class="sw">
-      <button class="sw-btn ${S.co==="SK"?"on":""}" data-co="SK">🇸🇰 Slovensko</button>
-      <button class="sw-btn ${S.co==="CZ"?"on":""}" data-co="CZ">🇨🇿 Česko</button>
+function renderApp(){
+  normalizeState();
+  const v = calc();
+  const baseRaw = getDB()[S.city];
+  const [mMin,mMax] = mRange();
+  const isCZ = S.co === "CZ";
+  const groups = getGroups();
+  const conds = getCond();
+  const btypes = getBtype();
+  const rooms = getRooms();
+  const exts = getExt();
+
+  app.innerHTML = `
+    <div class="hdr">
+      <h1>Oceňovanie nehnuteľností</h1>
+      <p>Slovensko & Česko · ${esc(DATA_VERSION.period)} · ${esc(DATA_VERSION.basis)}</p>
     </div>
-    <div class="sw sw3">
-      <button class="sw-btn ${S.pt==="flat"?"on":""}" data-pt="flat">🏢 Byt</button>
-      <button class="sw-btn ${S.pt==="house"?"on":""}" data-pt="house">🏠 Dom</button>
-      <button class="sw-btn ${S.pt==="land"?"on":""}" data-pt="land">📐 Pozemok</button>
+
+    <div class="sw" role="group" aria-label="Krajina">
+      ${renderSwitch("🇸🇰 Slovensko","SK",S.co,"co")}
+      ${renderSwitch("🇨🇿 Česko","CZ",S.co,"co")}
     </div>
-    ${isCZ?'<div class="cn">Ceny v € · kurz 25,2 Kč/€ · Kč v zátvorkách</div>':""}
 
-    <!-- LOCATION -->
-    <div class="sec"><div class="sec-t">Lokalita</div><div class="crd">
-      <label>${isCZ?"Město":"Mesto"} / Oblasť</label>
-      <select id="sel-city">${gs.map(g=>`<optgroup label="${g.l}">${g.i.map(k=>`<option value="${k}" ${k===S.city?"selected":""}>${k}</option>`).join("")}</optgroup>`).join("")}</select>
-      ${baseRaw!=null?`<div class="base-badge">${priceStr(baseRaw,true)}/m²</div>`:""}
-    </div></div>
+    <div class="sw sw3" role="group" aria-label="Typ nehnuteľnosti">
+      ${renderSwitch("🏢 Byt","flat",S.pt,"pt")}
+      ${renderSwitch("🏠 Dom","house",S.pt,"pt")}
+      ${renderSwitch("📐 Pozemok","land",S.pt,"pt")}
+    </div>
 
-    <!-- PARAMETERS -->
-    <div class="sec"><div class="sec-t">Parametre – ${ptL()}</div><div class="crd">
-      <div>
-        <label>${m2L()}</label>
-        <input type="number" id="inp-m2" value="${S.m2}" min="${mMin}" max="${mMax}" inputmode="numeric">
-        <input type="range" id="rng-m2" min="${mMin}" max="${mMax}" value="${Math.min(S.m2,mMax)}">
-        <div class="m2v">${fmt(S.m2)} m²</div>
+    ${isCZ ? `<div class="cn">Ceny v € · kurz ${esc(DATA_VERSION.fx.label)} · Kč v zátvorkách</div>` : ""}
+
+    <div class="sec">
+      <div class="sec-t">Lokalita</div>
+      <div class="crd">
+        <label for="sel-city">${isCZ ? "Město" : "Mesto"} / Oblasť</label>
+        <select id="sel-city" data-field="city">${renderCityOptions(groups)}</select>
+        ${Number.isFinite(baseRaw) ? `<div class="base-badge">${priceStr(baseRaw,true)}/m²</div>` : ""}
       </div>
-      ${needRooms()?`<div class="g2">
-        <div><label>Počet izieb</label><select id="sel-rooms">${rooms.map((r,i)=>`<option value="${i}" ${i===S.rooms?"selected":""}>${r.k}</option>`).join("")}</select></div>
-        ${needCond()?`<div><label>Stav</label><select id="sel-cond">${conds.map((c,i)=>`<option value="${i}" ${i===S.cond?"selected":""}>${c.k}</option>`).join("")}</select></div>`:""}
-      </div>`:""}
-      ${needBtype()?`<div class="g2">
-        <div><label>Typ stavby</label><select id="sel-bt">${btypes.map((b,i)=>`<option value="${i}" ${i===S.btype?"selected":""}>${b.k}</option>`).join("")}</select></div>
-        ${needOri()?`<div><label>Orientácia</label><select id="sel-ori">${ORI.map((o,i)=>`<option value="${i}" ${i===S.ori?"selected":""}>${o.k}</option>`).join("")}</select></div>`:""}
-      </div>`:""}
-    </div></div>
-
-    ${needPlot()?`<!-- PLOT SIZE -->
-    <div class="sec"><div class="sec-t">Výmera pozemku</div><div class="crd">
-      <label>Pozemok pri dome (m²)</label>
-      <input type="number" id="inp-plot" value="${S.plot}" min="100" max="5000" inputmode="numeric">
-      <input type="range" id="rng-plot" min="100" max="3000" value="${Math.min(S.plot,3000)}">
-      <div class="m2v">${fmt(S.plot)} m²</div>
-    </div></div>`:""}
-
-    ${needLandType()?`<!-- LAND TYPE -->
-    <div class="sec"><div class="sec-t">Druh pozemku</div><div class="crd">
-      <label>Klasifikácia v katastri</label>
-      <select id="sel-lt">${LAND_TYPE.map((l,i)=>`<option value="${i}" ${i===S.landType?"selected":""}>${l.k} (${(l.m*100).toFixed(0)}%)</option>`).join("")}</select>
-      ${S.landType>0?`<div class="lt-note">⚠️ ${LAND_TYPE[S.landType].d} · ${(LAND_TYPE[S.landType].m*100).toFixed(0)}% z bázy stavebného pozemku</div>`:""}
-    </div></div>`:""}
-
-    ${needFloor()?`<!-- FLOOR -->
-    <div class="sec"><div class="sec-t">Poschodie</div><div class="crd">
-      <div class="fl-grid">${FLOOR.map((f,i)=>`<button class="fl-btn ${i===S.floor?"on":""}" data-fi="${i}">${f.k}</button>`).join("")}</div>
-    </div></div>`:""}
-
-    <!-- EXTRAS -->
-    <div class="sec"><div class="sec-t">${S.pt==="land"?"Parametre pozemku":"Vybavenie & okolie"}</div><div class="crd">
-      <div class="chips">${exts.map((e,i)=>`<button class="chip ${e.f<0?"neg":""} ${S.extras.includes(i)?"on":""}" data-ei="${i}">${e.f>0?"+":""}${(e.f*100).toFixed(1)}% ${e.k}</button>`).join("")}</div>
-    </div></div>
-
-    ${v?`
-    <!-- RESULT -->
-    <div class="sec"><div class="sec-t">Odhad trhovej ceny – ${ptL()}</div>
-    <div class="res">
-      <div class="price-main">${fmt(v.tot)} €</div>
-      ${isCZ?`<div class="price-sec">${fmtK(v.tot*R)} Kč</div>`:""}
-      <div class="price-range">${fmt(v.lo)} – ${fmt(v.hi)} €${isCZ?` · ${fmtK(v.lo*R)} – ${fmtK(v.hi*R)} Kč`:""}</div>
-      <div class="price-m2">${fmt(v.pm)} €/m²${isCZ?` · ${fmtK(v.pm*R)} Kč/m²`:""} · ${fmt(S.m2)} m² · ${pct(v.tf)}</div>
-      <div class="bars">${v.adjs.filter(a=>a.f!==0).map(a=>{
-        const mx=Math.max(...v.adjs.map(x=>Math.abs(x.f)),.01);
-        const w=Math.abs(a.f)/mx*100;
-        return`<div class="bar-r"><span class="bar-l">${a.n}</span><div class="bar-t"><div class="bar-f" style="width:${w}%;background:${a.f>0?"#34a853":"#ea4335"};opacity:.85"></div></div><span class="bar-v ${a.f>0?"pos":"neg"}">${pct(a.f)}</span></div>`;
-      }).join("")}</div>
     </div>
 
-    <button class="bd-toggle" id="btn-bd">${S.bd?"▾ Skryť detailný rozpis":"▸ Zobraziť detailný rozpis"}</button>
-    ${S.bd?`<div class="crd" style="margin-top:12px">
-      <div class="bd-base"><span>Báza · ${S.city}</span><span style="font-family:'JetBrains Mono',monospace">${priceStr(v.baseRaw,true)}/m²</span></div>
-      ${S.pt==="land"&&S.landType>0?`<div class="bd-row"><div><div class="bd-name">Druh pozemku</div><div class="bd-det">${LAND_TYPE[S.landType].k} · ${(LAND_TYPE[S.landType].m*100).toFixed(0)}% × báza</div></div><div class="bd-fac neg">×${LAND_TYPE[S.landType].m.toFixed(2)}</div></div>
-      <div class="bd-row" style="background:var(--surface2);margin:0 -16px;padding:8px 16px"><div class="bd-name">Upravená báza</div><div class="bd-fac" style="color:var(--primary)">${priceStr(v.base,true)}/m²</div></div>`:""}
-      ${v.adjs.map(a=>`<div class="bd-row"><div><div class="bd-name">${a.n}</div><div class="bd-det">${a.d}</div></div><div class="bd-fac ${a.f>0?"pos":a.f<0?"neg":""}">${pct(a.f)}<span class="bd-eur">(${a.f>0?"+":""}${fmt(v.base*a.f)} €)</span></div></div>`).join("")}
-      <div class="bd-total"><span>Cena za m²</span><span style="font-family:'JetBrains Mono',monospace;color:var(--primary)">${priceStr(v.pm,true)}/m²</span></div>
-      <div class="bd-total" style="border-top-width:1px;border-color:var(--border)"><span>Celkom · ${fmt(S.m2)} m²</span><span style="font-family:'JetBrains Mono',monospace;font-size:15px">${priceStr(v.tot,true)}</span></div>
-    </div>`:""}
+    <div class="sec">
+      <div class="sec-t">Parametre – ${ptL()}</div>
+      <div class="crd">
+        ${renderField(m2L(),"inp-m2",`
+          <input type="number" id="inp-m2" data-field="m2" value="${esc(S.m2)}" min="${mMin}" max="${mMax}" inputmode="numeric">
+          <input type="range" id="rng-m2" data-field="m2" min="${mMin}" max="${mMax}" value="${clamp(S.m2,mMin,mMax)}" aria-label="${esc(m2L())}">
+          <div class="m2v" data-value="m2">${fmt(S.m2)} m²</div>
+        `)}
+
+        ${needRooms() ? `
+          <div class="g2">
+            ${renderField("Počet izieb","sel-rooms",`<select id="sel-rooms" data-field="rooms">${renderSelectOptions(rooms,S.rooms)}</select>`)}
+            ${needCond() ? renderField("Stav","sel-cond",`<select id="sel-cond" data-field="cond">${renderSelectOptions(conds,S.cond)}</select>`) : ""}
+          </div>
+        ` : ""}
+
+        ${needBtype() ? `
+          <div class="g2">
+            ${renderField("Typ stavby","sel-bt",`<select id="sel-bt" data-field="btype">${renderSelectOptions(btypes,S.btype)}</select>`)}
+            ${needOri() ? renderField("Orientácia","sel-ori",`<select id="sel-ori" data-field="ori">${renderSelectOptions(ORI,S.ori)}</select>`) : ""}
+          </div>
+        ` : ""}
+      </div>
     </div>
 
-    <!-- NEGOTIATION -->
-    <div class="sec"><div class="sec-t">Argumenty na rokovanie</div><div class="crd nc">
-      <h3>💬 Ako obhájiť cenu pred majiteľom</h3>
-      ${args.map(a=>`<div class="arg"><div class="arg-label">${a.l}</div><div class="arg-text">${a.t}</div></div>`).join("")}
-    </div></div>
-    `:""}
+    ${needPlot() ? `
+      <div class="sec">
+        <div class="sec-t">Výmera pozemku</div>
+        <div class="crd">
+          ${renderField("Pozemok pri dome (m²)","inp-plot",`
+            <input type="number" id="inp-plot" data-field="plot" value="${esc(S.plot)}" min="100" max="5000" inputmode="numeric">
+            <input type="range" id="rng-plot" data-field="plot" min="100" max="5000" value="${clamp(S.plot,100,5000)}" aria-label="Pozemok pri dome v metroch štvorcových">
+            <div class="m2v" data-value="plot">${fmt(S.plot)} m²</div>
+          `)}
+        </div>
+      </div>
+    ` : ""}
 
-    <div class="disc">⚠️ Ceny kalibrované na <strong>realizované transakcie</strong> (kataster, ŠÚ SR), nie na ponukové ceny portálov (tie sú typicky o 8–12% vyššie). ${S.pt==="land"?"Rozpätie ±12% (pozemky majú vyššiu variabilitu).":"Rozpätie ±8%."} ${isCZ?"Kurz 25,2 Kč/€. ":""}Skutočná cena závisí od konkrétnych podmienok (presná ulica, právny stav, vecné bremená). Nie je znalecký posudok.</div>
-    <div class="src">${isCZ?"ČSÚ · ČNB · ČBA monitor · Deloitte Real Index · hyponamiru.cz":"NBS Q4 2025 · ŠÚ SR · Realitná únia Mar 2026 · CBRE · realitymap.sk · Mirano"} · Apríl 2026</div>
+    ${needLandType() ? `
+      <div class="sec">
+        <div class="sec-t">Druh pozemku</div>
+        <div class="crd">
+          ${renderField("Klasifikácia v katastri","sel-lt",`
+            <select id="sel-lt" data-field="landType">
+              ${LAND_TYPE.map(item => `<option value="${esc(item.id)}" ${item.id === S.landType ? "selected" : ""}>${esc(item.label)} (${(item.m*100).toFixed(0)}%)</option>`).join("")}
+            </select>
+          `)}
+          ${S.landType !== "building" ? `<div class="lt-note">⚠️ ${esc(byId(LAND_TYPE,S.landType).desc)} · ${(byId(LAND_TYPE,S.landType).m*100).toFixed(0)}% z bázy stavebného pozemku</div>` : ""}
+        </div>
+      </div>
+    ` : ""}
+
+    ${needFloor() ? `
+      <div class="sec">
+        <div class="sec-t">Poschodie</div>
+        <div class="crd">
+          <div class="fl-grid">
+            ${FLOOR.map(item => {
+              const isOn = item.id === S.floor;
+              return `<button type="button" class="fl-btn ${isOn ? "on" : ""}" data-floor="${esc(item.id)}" aria-pressed="${isOn}">${esc(item.label)}</button>`;
+            }).join("")}
+          </div>
+        </div>
+      </div>
+    ` : ""}
+
+    <div class="sec">
+      <div class="sec-t">${S.pt === "land" ? "Parametre pozemku" : "Vybavenie & okolie"}</div>
+      <div class="crd">
+        <div class="chips">
+          ${exts.map(item => {
+            const isOn = S.extras.includes(item.id);
+            const value = item.kind === "abs" ? "" : `${item.f > 0 ? "+" : ""}${(item.f*100).toFixed(1)}% `;
+            const neg = item.kind !== "abs" && item.f < 0;
+            return `<button type="button" class="chip ${neg ? "neg" : ""} ${isOn ? "on" : ""}" data-extra="${esc(item.id)}" aria-pressed="${isOn}">${esc(value + item.label)}</button>`;
+          }).join("")}
+        </div>
+      </div>
+    </div>
+
+    <div id="calc-sections">${renderCalcSections(v)}</div>
+
+    <div class="disc">
+      ⚠️ Ceny sú kalibrované na <strong>realizované transakcie</strong>, nie na ponukové ceny portálov.
+      ${S.pt === "land" ? "Rozpätie ±12% (pozemky majú vyššiu variabilitu)." : "Rozpätie ±8%."}
+      ${isCZ ? `Kurz ${esc(DATA_VERSION.fx.label)}. ` : ""}
+      Absolútne položky, napríklad garáž alebo pivnica, sa pripočítavajú ako pevná suma, nie ako percento z celej nehnuteľnosti.
+      Skutočná cena závisí od konkrétnej ulice, právneho stavu, vecných bremien a technického stavu. Nie je znalecký posudok.
+    </div>
+
+    <div class="src">${esc(DATA_VERSION.sources[S.co])} · ${esc(DATA_VERSION.updatedAt)}</div>
   `;
-
-  // Events
-  document.querySelectorAll("[data-co]").forEach(el=>el.onclick=()=>{if(el.dataset.co!==S.co){S.co=el.dataset.co;init();render();}});
-  document.querySelectorAll("[data-pt]").forEach(el=>el.onclick=()=>{if(el.dataset.pt!==S.pt){S.pt=el.dataset.pt;init();render();}});
-  const sc=document.getElementById("sel-city");if(sc)sc.onchange=e=>{S.city=e.target.value;render();};
-  const im=document.getElementById("inp-m2");if(im)im.onchange=e=>{S.m2=Math.max(mMin,Math.min(mMax,+e.target.value));render();};
-  const rm=document.getElementById("rng-m2");if(rm)rm.oninput=e=>{S.m2=+e.target.value;render();};
-  const sr=document.getElementById("sel-rooms");if(sr)sr.onchange=e=>{S.rooms=+e.target.value;render();};
-  const sco=document.getElementById("sel-cond");if(sco)sco.onchange=e=>{S.cond=+e.target.value;render();};
-  const sbt=document.getElementById("sel-bt");if(sbt)sbt.onchange=e=>{S.btype=+e.target.value;render();};
-  const sor=document.getElementById("sel-ori");if(sor)sor.onchange=e=>{S.ori=+e.target.value;render();};
-  const ipl=document.getElementById("inp-plot");if(ipl)ipl.onchange=e=>{S.plot=Math.max(100,Math.min(5000,+e.target.value));render();};
-  const rpl=document.getElementById("rng-plot");if(rpl)rpl.oninput=e=>{S.plot=+e.target.value;render();};
-  const slt=document.getElementById("sel-lt");if(slt)slt.onchange=e=>{S.landType=+e.target.value;render();};
-  document.querySelectorAll("[data-fi]").forEach(el=>el.onclick=()=>{S.floor=+el.dataset.fi;render();});
-  document.querySelectorAll("[data-ei]").forEach(el=>el.onclick=()=>{const i=+el.dataset.ei;S.extras=S.extras.includes(i)?S.extras.filter(x=>x!==i):[...S.extras,i];render();});
-  const bd=document.getElementById("btn-bd");if(bd)bd.onclick=()=>{S.bd=!S.bd;render();};
 }
-render();
+
+function renderCalcSections(v){
+  if (!v) return `<div class="sec"><div class="crd empty">Nie je dostupná báza pre zvolenú kombináciu.</div></div>`;
+  return `${renderEstimate(v)}${renderNegotiation(v)}`;
+}
+
+function renderEstimate(v){
+  const isCZ = S.co === "CZ";
+  const bars = renderBars(v);
+
+  return `
+    <div class="sec">
+      <div class="sec-t">Odhad trhovej ceny – ${ptL()}</div>
+      <div class="res" aria-live="polite">
+        <div class="price-main">${fmt(v.tot)} €</div>
+        ${isCZ ? `<div class="price-sec">${fmtK(v.tot * R)} Kč</div>` : ""}
+        <div class="price-range">${fmt(v.lo)} – ${fmt(v.hi)} €${isCZ ? ` · ${fmtK(v.lo * R)} – ${fmtK(v.hi * R)} Kč` : ""}</div>
+        <div class="price-m2">${fmt(v.pm)} €/m²${isCZ ? ` · ${fmtK(v.pm * R)} Kč/m²` : ""} · ${fmt(S.m2)} m²</div>
+        <div class="model-note">
+          Model voči báze lokality: ${pct(v.totalFactorFromRaw)}
+          ${v.landType && v.landType.id !== "building" ? ` · typ pozemku ×${v.landType.m.toFixed(2)}` : ""}
+          ${v.absTotal ? ` · pevné položky ${priceStr(v.absTotal,true)}` : ""}
+        </div>
+        ${bars}
+      </div>
+
+      <button type="button" class="bd-toggle" id="btn-bd" data-action="toggle-breakdown" aria-expanded="${S.bd}">
+        ${S.bd ? "▾ Skryť detailný rozpis" : "▸ Zobraziť detailný rozpis"}
+      </button>
+
+      ${S.bd ? renderBreakdown(v) : ""}
+    </div>
+  `;
+}
+
+function renderBars(v){
+  const items = v.adjs
+    .map(adj => ({ adj, eq:adjEquivalentPct(adj,v) }))
+    .filter(item => Math.abs(item.eq) > .0001 && item.adj.type !== "skipped");
+
+  if (!items.length) return "";
+
+  const max = Math.max(...items.map(item => Math.abs(item.eq)),.01);
+
+  return `
+    <div class="bars" aria-label="Vplyv jednotlivých parametrov">
+      ${items.map(({adj,eq}) => {
+        const w = Math.min(100,Math.abs(eq) / max * 100);
+        const positive = eq > 0;
+        return `
+          <div class="bar-r">
+            <span class="bar-l">${esc(adj.n)}</span>
+            <div class="bar-t"><div class="bar-f ${positive ? "pos-bg" : "neg-bg"}" style="width:${w.toFixed(1)}%"></div></div>
+            <span class="bar-v ${positive ? "pos" : "neg"}">${esc(formatAdjValue(adj,v))}</span>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function renderBreakdown(v){
+  return `
+    <div class="crd bd-card">
+      <div class="bd-base">
+        <span>Báza · ${esc(S.city)}</span>
+        <span class="mono">${priceStr(v.baseRaw,true)}/m²</span>
+      </div>
+
+      ${v.landType && v.landType.id !== "building" ? `
+        <div class="bd-row">
+          <div>
+            <div class="bd-name">Druh pozemku</div>
+            <div class="bd-det">${esc(v.landType.label)} · ${(v.landType.m*100).toFixed(0)}% × báza</div>
+          </div>
+          <div class="bd-fac neg">×${v.landType.m.toFixed(2)}</div>
+        </div>
+        <div class="bd-row bd-row-muted">
+          <div class="bd-name">Upravená báza</div>
+          <div class="bd-fac primary">${priceStr(v.base,true)}/m²</div>
+        </div>
+      ` : ""}
+
+      ${v.adjs.map(adj => renderBreakdownRow(adj,v)).join("")}
+
+      ${v.wasClamped ? `
+        <div class="bd-row">
+          <div>
+            <div class="bd-name">Ochranný limit modelu</div>
+            <div class="bd-det">Súbeh korekcií bol obmedzený na realistickejší rozsah.</div>
+          </div>
+          <div class="bd-fac primary">×${v.pctFactor.toFixed(2)}</div>
+        </div>
+      ` : ""}
+
+      <div class="bd-total">
+        <span>Cena za m²</span>
+        <span class="mono primary">${priceStr(v.pm,true)}/m²</span>
+      </div>
+      <div class="bd-total">
+        <span>Celkom · ${fmt(S.m2)} m²</span>
+        <span class="mono">${priceStr(v.tot,true)}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderBreakdownRow(adj,v){
+  const eq = adjEquivalentPct(adj,v);
+  const cls = eq > 0 ? "pos" : eq < 0 ? "neg" : "";
+  let value;
+
+  if (adj.type === "abs") {
+    value = `${adj.eur > 0 ? "+" : ""}${priceStr(adj.eur,true)} <span class="bd-eur">(~${pct(eq)})</span>`;
+  } else if (adj.type === "skipped") {
+    value = `0.0% <span class="bd-eur">(bez duplicity)</span>`;
+  } else {
+    value = `${pct(adj.f || 0)} <span class="bd-eur">(${adj.f > 0 ? "+" : ""}${fmt(v.base * (adj.f || 0))} €/m²)</span>`;
+  }
+
+  return `
+    <div class="bd-row">
+      <div>
+        <div class="bd-name">${esc(adj.n)}</div>
+        <div class="bd-det">${esc(adj.d)}</div>
+      </div>
+      <div class="bd-fac ${cls}">${value}</div>
+    </div>
+  `;
+}
+
+function renderNegotiation(v){
+  const args = genArgs(v);
+  return `
+    <div class="sec">
+      <div class="sec-t">Argumenty na rokovanie</div>
+      <div class="crd nc">
+        <h3>💬 Ako obhájiť cenu pred majiteľom</h3>
+        ${args.map(arg => `
+          <div class="arg">
+            <div class="arg-label">${esc(arg.label)}</div>
+            <div class="arg-text">${esc(arg.text)}</div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function updateDynamicSections(){
+  const target = document.getElementById("calc-sections");
+  if (target) target.innerHTML = renderCalcSections(calc());
+}
+
+function syncNumericControls(field){
+  const value = S[field];
+  const num = app.querySelector(`input[type="number"][data-field="${field}"]`);
+  const rng = app.querySelector(`input[type="range"][data-field="${field}"]`);
+  const out = app.querySelector(`[data-value="${field}"]`);
+  if (num) num.value = value;
+  if (rng) rng.value = value;
+  if (out) out.textContent = `${fmt(value)} m²`;
+}
+
+function setCountry(co){
+  if (!["SK","CZ"].includes(co) || co === S.co) return;
+  S.co = co;
+  normalizeState();
+  saveStateSoon();
+  renderApp();
+}
+
+function setPropertyType(pt){
+  if (!DEFAULTS[pt] || pt === S.pt) return;
+  const previousM2 = S.m2;
+  const previousPlot = S.plot;
+  const previousCity = S.city;
+  const [minM2,maxM2] = mRange(pt);
+
+  S = {
+    ...S,
+    ...DEFAULTS[pt],
+    pt,
+    city:previousCity,
+    m2:clampNumber(previousM2,minM2,maxM2,DEFAULTS[pt].m2),
+    plot:clampNumber(previousPlot,100,5000,DEFAULTS[pt].plot || 600),
+    bd:false
+  };
+
+  normalizeState();
+  saveStateSoon();
+  renderApp();
+}
+
+function handleClick(event){
+  const co = event.target.closest("[data-co]");
+  if (co) { setCountry(co.dataset.co); return; }
+
+  const pt = event.target.closest("[data-pt]");
+  if (pt) { setPropertyType(pt.dataset.pt); return; }
+
+  const floor = event.target.closest("[data-floor]");
+  if (floor) {
+    S.floor = floor.dataset.floor;
+    normalizeState();
+    saveStateSoon();
+    renderApp();
+    return;
+  }
+
+  const extra = event.target.closest("[data-extra]");
+  if (extra) {
+    const id = extra.dataset.extra;
+    S.extras = S.extras.includes(id) ? S.extras.filter(x => x !== id) : [...S.extras,id];
+    normalizeState();
+    saveStateSoon();
+    renderApp();
+    return;
+  }
+
+  const action = event.target.closest("[data-action]");
+  if (action && action.dataset.action === "toggle-breakdown") {
+    S.bd = !S.bd;
+    saveStateSoon();
+    updateDynamicSections();
+  }
+}
+
+function handleChange(event){
+  const el = event.target;
+  const field = el.dataset.field;
+  if (!field) return;
+
+  if (field === "city") {
+    S.city = el.value;
+  } else if (field === "m2") {
+    const [min,max] = mRange();
+    S.m2 = clampNumber(el.value,min,max,S.m2);
+  } else if (field === "plot") {
+    S.plot = clampNumber(el.value,100,5000,S.plot);
+  } else if (["rooms","cond","btype","ori","landType"].includes(field)) {
+    S[field] = el.value;
+  }
+
+  normalizeState();
+  saveStateSoon();
+  renderApp();
+}
+
+function handleInput(event){
+  const el = event.target;
+  const field = el.dataset.field;
+  if (field !== "m2" && field !== "plot") return;
+  if (el.type !== "range") return;
+
+  if (field === "m2") {
+    const [min,max] = mRange();
+    S.m2 = clampNumber(el.value,min,max,S.m2);
+  } else {
+    S.plot = clampNumber(el.value,100,5000,S.plot);
+  }
+
+  syncNumericControls(field);
+  updateDynamicSections();
+  saveStateSoon();
+}
+
+app.addEventListener("click",handleClick);
+app.addEventListener("change",handleChange);
+app.addEventListener("input",handleInput);
+
+renderApp();
 </script>
 </body>
 </html>
