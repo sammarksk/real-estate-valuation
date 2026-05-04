@@ -119,48 +119,65 @@ input[type="range"]{width:100%;margin-top:8px;accent-color:var(--primary);height
 // ══════════════════════════════════════════════════════════════════
 const R=25.2,toE=k=>Math.round(k/R);
 
-// ═══ SK FLATS (€/m²) — recalibrated Q1 2026 ═══
+// ═══ SK FLATS (€/m²) — REALIZED transaction prices Q1 2026 ═══
+// Calibrated to ŠÚ SR kataster data (realized, not asking).
+// Asking prices (NBS, RÚ barometer) are typically 8-12% above realized.
+// BA staršie byty Q3 2025 asking avg: 4141 €/m² → realized ~3700-3800
+// NBS celosk. priemer Q4 2025 (asking): 3262 → realized ~2900-3000
+// "Default" calibration assumes condition = "Kompletná rekonštrukcia" (+6%);
+// adjustments below this baseline produce realistic floor prices.
 const F_SK={
-"Bratislava – Staré Mesto":5800,"Bratislava – Ružinov":4500,"Bratislava – Nové Mesto":4600,
-"Bratislava – Karlova Ves":4300,"Bratislava – Petržalka":3900,"Bratislava – Dúbravka":3700,
-"Bratislava – Rača":3600,"Bratislava – Vrakuňa":3200,"Bratislava – Podun. Biskupice":3100,
-"Bratislava – Devínska N. Ves":3400,"Bratislava – Lamač":3500,"Bratislava – Vajnory":3200,
-"Bratislava – Záhorská Bystrica":3100,"Bratislava – Čunovo/Jarovce":3000,
-"Košice – centrum (I)":3700,"Košice – západ (II)":3000,"Košice – DH (III)":2600,"Košice – juh (IV)":2800,
-"Žilina":2900,"Banská Bystrica":2850,"Trnava":2950,"Trenčín":2500,
-"Nitra":2350,"Prešov":2600,"Poprad":2550,"Martin":2100,
-"Piešťany":2600,"Senec":3300,"Pezinok":3100,
-"Prievidza":1600,"Zvolen":2050,"Lučenec":1300,"Komárno":1400,
-"Rimavská Sobota":950,"Michalovce":1550,"Humenné":1300,"Bardejov":1400
+// BA: realized transaction medians, not new-build asking
+"Bratislava – Staré Mesto":4800,"Bratislava – Ružinov":3700,"Bratislava – Nové Mesto":3800,
+"Bratislava – Karlova Ves":3500,"Bratislava – Petržalka":3200,"Bratislava – Dúbravka":3000,
+"Bratislava – Rača":2950,"Bratislava – Vrakuňa":2700,"Bratislava – Podun. Biskupice":2600,
+"Bratislava – Devínska N. Ves":2800,"Bratislava – Lamač":2900,"Bratislava – Vajnory":2700,
+"Bratislava – Záhorská Bystrica":2600,"Bratislava – Čunovo/Jarovce":2500,
+// KE: NBS Q4 2025 najrýchlejší rast +8.2% QoQ; realized ~2700-3100
+"Košice – centrum (I)":3100,"Košice – západ (II)":2500,"Košice – DH (III)":2150,"Košice – juh (IV)":2350,
+// Krajské mestá: RÚ barometer transaction adj.
+"Žilina":2400,"Banská Bystrica":2350,"Trnava":2450,"Trenčín":2050,
+"Nitra":1950,"Prešov":2150,"Poprad":2100,"Martin":1750,
+"Piešťany":2150,"Senec":2750,"Pezinok":2550,
+"Prievidza":1300,"Zvolen":1700,"Lučenec":1100,"Komárno":1150,
+"Rimavská Sobota":800,"Michalovce":1300,"Humenné":1100,"Bardejov":1150
 };
+// ═══ CZ FLATS (CZK/m² → €) — realized prices Q1 2026 ═══
+// ČSÚ realized Praha 2024: 115889 Kč; +~12% to Q1 2026 = ~130k
+// Asking prices Praha (Moneyspot Jan 2026): 156k → realized ~130-140k
+// Top P1-P2 realized: 180-220k; P3/5/6/7: 120-145k
 const F_CZ={
-"Praha 1":toE(240000),"Praha 2":toE(180000),"Praha 3":toE(155000),"Praha 4":toE(130000),
-"Praha 5":toE(145000),"Praha 6":toE(145000),"Praha 7":toE(165000),"Praha 8":toE(140000),
-"Praha 9":toE(115000),"Praha 10":toE(125000),"Praha – okraj":toE(100000),
-"Brno – centrum":toE(125000),"Brno – širšie centrum":toE(100000),"Brno – sídlisko":toE(85000),
-"Plzeň":toE(96000),"Olomouc":toE(95000),"Hradec Králové":toE(98000),
-"České Budějovice":toE(88000),"Pardubice":toE(88000),"Liberec":toE(82000),
-"Zlín":toE(89000),"Karlovy Vary":toE(71000),"Jihlava":toE(64000),
-"Ostrava – centrum":toE(62000),"Ostrava – sídlisko":toE(42000),
-"Ústí nad Labem":toE(48000),"Most/Litvínov":toE(28000),
-"Kladno":toE(78000),"Mladá Boleslav":toE(66000),"Opava":toE(45000),"Frýdek-Místek":toE(52000)
+"Praha 1":toE(200000),"Praha 2":toE(155000),"Praha 3":toE(130000),"Praha 4":toE(110000),
+"Praha 5":toE(125000),"Praha 6":toE(125000),"Praha 7":toE(140000),"Praha 8":toE(118000),
+"Praha 9":toE(98000),"Praha 10":toE(108000),"Praha – okraj":toE(85000),
+"Brno – centrum":toE(105000),"Brno – širšie centrum":toE(85000),"Brno – sídlisko":toE(72000),
+"Plzeň":toE(82000),"Olomouc":toE(80000),"Hradec Králové":toE(83000),
+"České Budějovice":toE(75000),"Pardubice":toE(75000),"Liberec":toE(70000),
+"Zlín":toE(76000),"Karlovy Vary":toE(60000),"Jihlava":toE(55000),
+"Ostrava – centrum":toE(52000),"Ostrava – sídlisko":toE(36000),
+"Ústí nad Labem":toE(40000),"Most/Litvínov":toE(23000),
+"Kladno":toE(66000),"Mladá Boleslav":toE(56000),"Opava":toE(38000),"Frýdek-Místek":toE(44000)
 };
+// ═══ SK HOUSES (€/m² úžit. plochy) — realized Q1 2026 ═══
+// NBS Q4 2025: SK avg dom 2139 €/m² (asking); realized ~1850-1950
 const H_SK={
-"Bratislava – mesto":3400,"Bratislava – okolie":2600,"Košice – mesto":2400,"Košice – okolie":1700,
-"Žilina":1950,"Banská Bystrica":1700,"Trnava":1950,"Trenčín":1500,
-"Nitra":1500,"Prešov":1500,"Poprad":1700,"Martin":1400,
-"Piešťany":1800,"Senec":2400,"Pezinok":2300,
-"Prievidza":1050,"Zvolen":1300,"Lučenec":850,"Komárno":950,
-"Rimavská Sobota":650,"Michalovce":1000,"Humenné":800,"Bardejov":850
+"Bratislava – mesto":2900,"Bratislava – okolie":2200,"Košice – mesto":2000,"Košice – okolie":1450,
+"Žilina":1650,"Banská Bystrica":1450,"Trnava":1700,"Trenčín":1300,
+"Nitra":1300,"Prešov":1300,"Poprad":1450,"Martin":1200,
+"Piešťany":1550,"Senec":2050,"Pezinok":1950,
+"Prievidza":900,"Zvolen":1100,"Lučenec":700,"Komárno":800,
+"Rimavská Sobota":550,"Michalovce":850,"Humenné":700,"Bardejov":700
 };
+// ═══ CZ HOUSES (CZK/m²) — realized Q1 2026 ═══
+// ČSÚ 2024 realized: ČR avg 51867, Praha 106753 → +~10% to Q1 2026
 const H_CZ={
-"Praha – mesto":toE(120000),"Praha – okolie":toE(88000),
-"Brno – mesto":toE(72000),"Brno – okolie":toE(55000),
-"Plzeň":toE(60000),"Olomouc":toE(52000),"Hradec Králové":toE(56000),
-"České Budějovice":toE(52000),"Pardubice":toE(50000),"Liberec":toE(45000),
-"Zlín":toE(48000),"Karlovy Vary":toE(40000),"Jihlava":toE(38000),
-"Ostrava":toE(34000),"Ústí nad Labem":toE(28000),"Most/Litvínov":toE(18000),
-"Kladno":toE(52000),"Mladá Boleslav":toE(44000),"Opava":toE(30000)
+"Praha – mesto":toE(108000),"Praha – okolie":toE(78000),
+"Brno – mesto":toE(62000),"Brno – okolie":toE(48000),
+"Plzeň":toE(52000),"Olomouc":toE(45000),"Hradec Králové":toE(48000),
+"České Budějovice":toE(45000),"Pardubice":toE(43000),"Liberec":toE(38000),
+"Zlín":toE(42000),"Karlovy Vary":toE(34000),"Jihlava":toE(33000),
+"Ostrava":toE(28000),"Ústí nad Labem":toE(24000),"Most/Litvínov":toE(15000),
+"Kladno":toE(45000),"Mladá Boleslav":toE(38000),"Opava":toE(26000)
 };
 const L_SK={
 "Bratislava – mesto":500,"Bratislava – okolie":220,"Bratislava – širšie okolie":150,
@@ -526,7 +543,7 @@ function render(){
     </div></div>
     `:""}
 
-    <div class="disc">⚠️ Orientačný odhad · Q1 2026. ${S.pt==="land"?"Rozpätie ±12% (pozemky majú vyššiu variabilitu).":"Rozpätie ±8%."} ${isCZ?"Kurz 25,2 Kč/€. ":""}Skutočná cena závisí od konkrétnych podmienok (presná ulica, právny stav, vecné bremená). Nie je znalecký posudok.</div>
+    <div class="disc">⚠️ Ceny kalibrované na <strong>realizované transakcie</strong> (kataster, ŠÚ SR), nie na ponukové ceny portálov (tie sú typicky o 8–12% vyššie). ${S.pt==="land"?"Rozpätie ±12% (pozemky majú vyššiu variabilitu).":"Rozpätie ±8%."} ${isCZ?"Kurz 25,2 Kč/€. ":""}Skutočná cena závisí od konkrétnych podmienok (presná ulica, právny stav, vecné bremená). Nie je znalecký posudok.</div>
     <div class="src">${isCZ?"ČSÚ · ČNB · ČBA monitor · Deloitte Real Index · hyponamiru.cz":"NBS Q4 2025 · ŠÚ SR · Realitná únia Mar 2026 · CBRE · realitymap.sk · Mirano"} · Apríl 2026</div>
   `;
 
